@@ -68,7 +68,9 @@ bitset <32> UJType::decode (string instruction){
 		if( instruction[i] == '-')	isNegative = true;
 		if(isalpha(instruction[i])){
 			error=1;
-			return -1;	
+			for(int i=0;i<32;i++)
+				Machinecode[i]=-1;
+			return Machinecode;	
 		}
 		i++;
 	}
