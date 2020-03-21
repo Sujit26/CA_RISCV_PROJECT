@@ -74,6 +74,13 @@ public:
         bitset <32> MC;
         stringstream ss(instruction); //helpful for tokenizing space separated strings.
         vector <int> parameters = extractint(instruction); // extracted all register names, offsets etc.
+        
+        if(parameters.size()<3)
+        {
+            for(int i=0;i<32;i++)
+                MC[i]=-1;
+                return MC;
+        }
         string action;
         ss >> action;
         int index = find(instructions.begin(),instructions.end(),action) - instructions.begin();
