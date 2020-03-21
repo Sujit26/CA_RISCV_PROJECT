@@ -51,7 +51,7 @@ bitset <32> UJType::decode (string instruction){
 	string instName, rdName, labelOffset;
 	int offset = 0;
 	bool isNegative = false;
-
+	int error =0;
 	//Splitting instruction into various parts, ignoring whitespaces and commas
 	int rdNum, i=0;
 	while(!isalnum(instruction[i]))	i++;
@@ -66,6 +66,10 @@ bitset <32> UJType::decode (string instruction){
 	}
 	while(!isdigit(instruction[i])){
 		if( instruction[i] == '-')	isNegative = true;
+		if(isalpha(instruction[i])){
+			error=1;
+			return -1;	
+		}
 		i++;
 	}
 	while(isdigit(instruction[i])){
@@ -91,7 +95,7 @@ bitset <32> UJType::decode (string instruction){
 		offset *= -1;
 
 	bitset <20> imm(offset);
-
+	
 	// Generatng machine code
 	for(int i=0; i<7; i++)
 		machineCode[i] = opcode[index][6-i] - '0';
@@ -103,7 +107,7 @@ bitset <32> UJType::decode (string instruction){
 	machineCode[31] = imm[19];
 	for(int i=0; i<11; i++)
 		machineCode[21+i] = imm[i];
-
+		   
 	return machineCode;
 
 }
