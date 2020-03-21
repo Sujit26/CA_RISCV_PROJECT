@@ -13,6 +13,7 @@ class RType
 	private:
 	vector <string> instructions;  
 	vector <string> opcode;
+	int error = 0;
     vector <string> funct3;
     vector <string> funct7;
 
@@ -29,10 +30,12 @@ class RType
     	{
     		sum = 0;
     		int flag =0;
-
+		//handling Error
     		while(index < a.size() && isdigit(a[index]))
     		{
     			currentint =a[index] - '0';
+			if(a[index-1]=='x')
+				error = -1;
     			sum = sum* 10 + currentint;
     			index++;
     			flag=1;
@@ -131,7 +134,11 @@ class RType
 			{
 				Machinecode[i+25] = (funct7str[funct7str.size()-1-i] == '0')?0:1;
 			}
-
+			if(error==-1)
+			{
+				for(int i=0;i<32;i++)
+					Machinecode[i]=-1;
+			}
 			return Machinecode;
 		}
 };
