@@ -33,7 +33,7 @@ int main()
 
 	string inputFileName = "input1.txt";
 	string outputFileName = "machineCode.txt";
-	sring basicCodeFileName = "basicCode.txt";
+	string basicCodeFileName = "basicCode.txt";
 
 	string dir = "./instructions/";
 
@@ -96,7 +96,7 @@ int main()
 					ostringstream numStr;
 					numStr<<offset;
 
-					strig intStr = numStr.str();
+					string intStr = numStr.str();
 
 					line = newline + intStr;
 				}
