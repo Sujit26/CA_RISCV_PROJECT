@@ -155,7 +155,7 @@ int main()
 
 void findLabels(string inputFileName, vector<string> &labelNames , vector<int> &labelLineNumber)
 {
-	ifstrem ifile(inputFileName.c_str());
+	ifstream ifile(inputFileName.c_str());
 	if(iFile.is_open())
 	{
 		int lineNo = 0;
