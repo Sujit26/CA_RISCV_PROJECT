@@ -3,7 +3,7 @@
 #include<sstream>
 #include<string.h>
 #include<bitset>
-#include "RType.h"
+#include "R_Type.h"
 #include "IType.h"
 #include "SBType.h"
 #include "SType.h"
