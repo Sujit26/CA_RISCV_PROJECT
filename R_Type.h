@@ -99,6 +99,12 @@ class RType
 			string action;
 			ss >> action;
 			vector<int> parameter=intextraction(instruction);
+			if(error==-1)
+			{
+				for(int i=0;i<32;i++)
+					Machinecode[i]=-1;
+				return Machinecode;
+			}
 			int index=find(instructions.begin(),instructions.end(),action)-instructions.begin();
 			string opcodestr,funct3str,funct7str;
 			opcodestr=opcode[index];
@@ -134,11 +140,7 @@ class RType
 			{
 				Machinecode[i+25] = (funct7str[funct7str.size()-1-i] == '0')?0:1;
 			}
-			if(error==-1)
-			{
-				for(int i=0;i<32;i++)
-					Machinecode[i]=-1;
-			}
+			
 			return Machinecode;
 		}
 };
