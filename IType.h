@@ -42,10 +42,13 @@ class IType
 					}
 					else//For positive Number
 					{	
-						if(str[i-1]!='x')
-							error = -1;
+						
 						if(i<str.size()&&isdigit(str[i]))
-						positive = 1;
+						{
+							if(str[i-1]=='x')
+							error = -1;
+							positive = 1;
+						}
 						while(i<str.size()&&isdigit(str[i]))
 						{
 							int p = str[i]-'0';
