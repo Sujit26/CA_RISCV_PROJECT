@@ -7,7 +7,7 @@
 #include<bitset>
 #include<sstream>
 
-class I
+class IType
 {
 	private:
 		vector <string> instructions;
