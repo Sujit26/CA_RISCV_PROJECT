@@ -11,6 +11,7 @@ using namespace std;
 class SType{
 private:
     vector <string> instructions;
+    int error = 0;
 // instruction : [ immediate (7) ][ rs2 (5)][rs1 (5)][func3][immediate (5)][opcode (7)]
     vector <string> opcode;
     vector <string> funct3;
@@ -19,20 +20,27 @@ private:
     vector<int> extractint(string str){
         vector <int> result;
         int sum,currentint;
+        int count = 0;
         for(int strIndex = 0 ; strIndex < str.size() ; strIndex++) {
             
             sum = 0;
             bool intfound = 0;
 
             while(strIndex < str.size() && isdigit(str[strIndex])) {
+                if(count==2)
+                {
+                    if(isalpha(str[strIndex]))
+                        error = -1;
+                }
                 currentint = str[strIndex] - '0';
                 sum = sum*10 + currentint;
                 strIndex++;
                 intfound = 1;
             }
             
-            if(intfound)
-                result.push_back(sum);
+            if(intfound){
+                count = count +1;
+                result.push_back(sum);}
         }
 
         return result;
@@ -74,6 +82,13 @@ public:
         bitset <32> MC;
         stringstream ss(instruction); //helpful for tokenizing space separated strings.
         vector <int> parameters = extractint(instruction); // extracted all register names, offsets etc.
+        
+        if(parameters.size()<3||error==-1)
+        {
+            for(int i=0;i<32;i++)
+                MC[i]=-1;
+                return MC;
+        }
         string action;
         ss >> action;
         int index = find(instructions.begin(),instructions.end(),action) - instructions.begin();
@@ -81,8 +96,8 @@ public:
         
         opcodestr = opcode[index];
         funct3str = funct3[index];
-        bitset <12> immediate(parameters[1]); // loading offset
-        bitset <5> rs1(parameters[0]),rs2(parameters[2]);
+        bitset <12> immediate(parameters[2]); // loading offset
+        bitset <5> rs1(parameters[0]),rs2(parameters[1]);
 
         for(int i=0;i<7;i++){
             if(opcodestr[opcodestr.size()-1-i] == '0')
