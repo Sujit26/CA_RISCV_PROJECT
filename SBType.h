@@ -30,7 +30,7 @@ class SBType {`
             while(strIndex < str.size() && isdigit(str[strIndex])) {
                 if(count==2)
                 {
-                    str[strIndex-1]='x';
+                    if(str[strIndex-1]=='x')
                     error =-1;
                 }
                 currentint = str[strIndex] - '0';
@@ -43,7 +43,7 @@ class SBType {`
                 // for negative values
                 if(count==2)
                 {
-                    str[strIndex-1]='x';
+                    if(str[strIndex-1]=='x')
                     error =-1;
                 }
                 sum2 = 0;
