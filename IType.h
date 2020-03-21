@@ -20,6 +20,7 @@ class IType
 			//12/5/3/5/7
 				vector<int> result;
 				int sum=0;
+				int count =0;
 				for(int i=0;i<str.size();i++)
 				{
 					sum=0;
@@ -45,7 +46,7 @@ class IType
 						
 						if(i<str.size()&&isdigit(str[i]))
 						{
-							if(str[i-1]=='x')
+							if(str[i-1]=='x'&&count==2)
 							error = -1;
 							positive = 1;
 						}
@@ -59,6 +60,7 @@ class IType
 					if(positive==1||negative==1)//If found any number then push it into the result
 					{
 						result.push_back(sum);
+						count = count+1;
 					}
 				}
 			return result;
