@@ -38,7 +38,7 @@ int main()
 	string dir = "./instructions/";
 
 	//change name accordingly
-	iTypeInsObj.intialise(dir+"IType.txt");
+	iTypeInsObj.initialise(dir+"IType.txt");
 	rTypeInsObj.initialise(dir + "RType.txt");
 	iTypeInsObj.initialise(dir + "IType.txt");
 	sbTypeInsObj.initialise(dir + "SBType.txt");
