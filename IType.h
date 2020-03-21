@@ -13,6 +13,7 @@ class IType
 		vector <string> instructions;
 		vector <string> opcode;
 		vector <string> funct3;
+		int error = 0;
 		//For extracting all the integers that is the value of destination register, source register and Immediate 
 		vector<int> extract(string str)
 		{	//immediate/rs1/funct3/rd/opcode
@@ -24,8 +25,12 @@ class IType
 					sum=0;
 					int negative = 0;
 					int positive = 0;
+					
 					if(str[i]=='-') //For Negative Number
-					{
+					{	
+						if(str[i-1]=='x')
+						error = -1;
+						
 						negative = 1;
 						while(i<str.size()&&isdigit(str[i]))
 						{
@@ -36,7 +41,9 @@ class IType
 						sum=sum*(-1);
 					}
 					else//For positive Number
-					{
+					{	
+						if(str[i-1]!='x')
+							error = -1;
 						if(i<str.size()&&isdigit(str[i]))
 						positive = 1;
 						while(i<str.size()&&isdigit(str[i]))
@@ -105,18 +112,16 @@ class IType
 			funct3_1 = funct3[index];
 
 			rd = result1[0];
-
-			if(instruct[0]=='l'||instruct[0]=='j')
+			rs1 = result1[1];
+			immediate = result1[2];
+			if(error==-1)
 			{
-				immediate = result1[1];
-				rs1=result1[2];
+				for(int i=0;i<32;i++)
+					Machine_code[i]=-1;
+				
+				return Machine_code;
 			}
-			else
-			{
-				immediate = result1[2];
-				rs1=result1[1];
-			}
-
+		
 			for(int i=0;i<7;i++)
 				Machine_code[i] = (opcode_1[opcode_1.size()-1-i] == '0') ? 0 : 1;
 
