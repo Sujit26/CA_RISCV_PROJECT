@@ -137,14 +137,15 @@ int main()
 				cout<<"ERROR !! Instruction not identified :"<<line<<endl;
 				machineCode = bitset<32>(0);
 				insType = -1;
-
-				oFile <<lineNo<<" "<< machineCode <<" "<< insType << endl;
-				oFile2 <<lineNo<<" "<< line << endl;
 			}
-
-			oFile<<lineNo+1<<" 0 0"<<endl;
-			
+			//machine code needs to be converted in hexa;
+			//lineNo need to be converted in address of instruction
+			oFile <<lineNo<<" "<< machineCode <<" "<< endl;
+			oFile2 <<lineNo<<" "<< line << endl;
 		}
+		
+		oFile<<lineNo+1<<" 0 0"<<endl;//ending 
+			
 	}
 	iFile.close();
 	oFile.close();
