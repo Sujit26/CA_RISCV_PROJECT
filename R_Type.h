@@ -34,7 +34,7 @@ class RType
     		while(index < a.size() && isdigit(a[index]))
     		{
     			currentint =a[index] - '0';
-			if(a[index-1]=='x')
+			if(a[index-1]!='x')
 				error = -1;
     			sum = sum* 10 + currentint;
     			index++;
