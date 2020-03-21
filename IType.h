@@ -119,7 +119,9 @@ class IType
 			rd = result1[0];
 			rs1 = result1[1];
 			immediate = result1[2];
-			if(error==-1)
+			
+			
+			if(error==-1||result1.size()<3)
 			{
 				for(int i=0;i<32;i++)
 					Machine_code[i]=-1;
