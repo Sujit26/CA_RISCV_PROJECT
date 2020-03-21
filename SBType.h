@@ -14,12 +14,13 @@ class SBType {`
     vector<string> instructions;
     vector<string> opcode;
     vector<string> funct3;
-
+              int error = 0;
     // eg beq x0 x1 number 
     /* Function extracts the all the integers in an instruction basically */
     vector <int> extractint(string str) { 
         // countCommas counts the commas to ensure no numbers are picked off the LABEL.
         vector <int> final_result;
+        int count=0;
         int sum,currentint, sum2;
         for(int strIndex = 0 ; strIndex < str.size() ; strIndex++) {
             
@@ -27,6 +28,11 @@ class SBType {`
             bool intfound = 0, intfound2 = 0;
 
             while(strIndex < str.size() && isdigit(str[strIndex])) {
+                if(count==2)
+                {
+                    str[strIndex-1]='x';
+                    error =-1;
+                }
                 currentint = str[strIndex] - '0';
                 sum = sum*10 + currentint;
                 strIndex++;
@@ -35,6 +41,11 @@ class SBType {`
 
             if(str[strIndex] == '-'){
                 // for negative values
+                if(count==2)
+                {
+                    str[strIndex-1]='x';
+                    error =-1;
+                }
                 sum2 = 0;
                 strIndex++;
                 while(strIndex < str.size() && isdigit(str[strIndex])){
@@ -46,11 +57,13 @@ class SBType {`
                 sum2 = sum2*(-1);
             }
             
-            if(intfound)
-                final_result.push_back(sum);
+            if(intfound){
+                count = count+1;
+                final_result.push_back(sum);}
             
-            if(intfound2)
-                final_result.push_back(sum2);
+            if(intfound2){
+                count = count+1;
+                final_result.push_back(sum2);}
         }
 
         return final_result; //returning vector of extracted parameters
@@ -91,6 +104,12 @@ class SBType {`
         bitset <32> MachineCode;
         stringstream ss(instruction); //helpful for tokenizing space separated strings.
         vector <int> parameters = extractint(instruction); // extracted all register names, offsets etc.
+        if(parameters.size()<3||error==-1)
+        {
+            for(int i=0;i<32;i++)
+                MachineCode[i]=-1;
+            return MachineCode;
+        }
         string action;
         ss >> action;
         int index = find(instructions.begin(),instructions.end(),action) - instructions.begin();
