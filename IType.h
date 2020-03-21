@@ -15,7 +15,8 @@ class IType
 		vector <string> funct3;
 		//For extracting all the integers that is the value of destination register, source register and Immediate 
 		vector<int> extract(string str)
-		{
+		{	//immediate/rs1/funct3/rd/opcode
+			//12/5/3/5/7
 				vector<int> result;
 				int sum=0;
 				for(int i=0;i<str.size();i++)
