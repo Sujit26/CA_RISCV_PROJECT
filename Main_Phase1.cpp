@@ -21,7 +21,7 @@ int main()
 	IType iTypeInsObj;
 	RType rTypeInsObj;
 	SBType sbTypeInsObj;
-    SType sTypeInsObj;
+        SType sTypeInsObj;
 	UJType ujTypeInsObj;
 	UType uTypeInsObj;
 
@@ -42,7 +42,7 @@ int main()
 	rTypeInsObj.initialise(dir + "RType.txt");
 	iTypeInsObj.initialise(dir + "IType.txt");
 	sbTypeInsObj.initialise(dir + "SBType.txt");
-    sTypeInsObj.initialise(dir + "SType.txt");
+        sTypeInsObj.initialise(dir + "SType.txt");
 	ujTypeInsObj.initialise(dir + "UJType.txt");
 	uTypeInsObj.initialise(dir + "UType.txt");
 
