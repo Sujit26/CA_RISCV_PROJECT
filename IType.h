@@ -13,7 +13,7 @@ class I
 		vector <string> instructions;
 		vector <string> opcode;
 		vector <string> funct3;
-
+		//For extracting all the integers that is the value of destination register, source register and Immediate 
 		vector<int> extract(string str)
 		{
 				vector<int> result;
@@ -23,7 +23,7 @@ class I
 					sum=0;
 					int negative = 0;
 					int positive = 0;
-					if(str[i]=='-')
+					if(str[i]=='-') //For Negative Number
 					{
 						negative = 1;
 						while(i<str.size()&&isdigit(str[i]))
@@ -34,7 +34,7 @@ class I
 						}
 						sum=sum*(-1);
 					}
-					else
+					else//For positive Number
 					{
 						if(i<str.size()&&isdigit(str[i]))
 						positive = 1;
@@ -45,7 +45,7 @@ class I
 							i=i+1;
 						}
 					}
-					if(positive==1||negative==1)
+					if(positive==1||negative==1)//If found any number then push it into the result
 					{
 						result.push_back(sum);
 					}
@@ -59,7 +59,7 @@ class I
 		{
 			ifstream ifile(filename.c_str());
 			string line;
-			while(getline(ifile,line))
+			while(getline(ifile,line))//Getting all the instructions
 			{
 				stringstream ss(line);
 				string token;
@@ -74,14 +74,14 @@ class I
 
 		bool isPresent(string command) 
 		{
-	        stringstream ss(command);
-	        string ins1;
-	        ss >> ins1;
-	        vector <string> :: iterator it = find(instructions.begin(),instructions.end(),ins1);
-	        if(it == instructions.end())
-	        return false;
-	        else
-	        return true;
+			stringstream ss(command);
+			string ins1;
+			ss >> ins1;
+			vector <string> :: iterator it = find(instructions.begin(),instructions.end(),ins1);
+			if(it == instructions.end())
+			return false;
+			else
+			return true;
   		 }
 
 		bitset<32> decode(string instruction)
@@ -97,8 +97,9 @@ class I
 			string instruct,fuct3_1,opcode_1;
 
 			ins>>instruct;
-
+			//Finding our instruction in the file 
 			int index = find(instructions.begin(),instructions.end(),instruct)-instrutions.begin();
+			//extarcting opcode and funct3 of our instruction 
 			opcode_1 = opcode[index];
 			funct3_1 = funct3[index];
 
