@@ -81,8 +81,8 @@ public:
         
         opcodestr = opcode[index];
         funct3str = funct3[index];
-        bitset <12> immediate(parameters[1]); // loading offset
-        bitset <5> rs1(parameters[0]),rs2(parameters[2]);
+        bitset <12> immediate(parameters[2]); // loading offset
+        bitset <5> rs1(parameters[0]),rs2(parameters[1]);
 
         for(int i=0;i<7;i++){
             if(opcodestr[opcodestr.size()-1-i] == '0')
