@@ -8,19 +8,6 @@ using namespace std;
 
 class Decode{
     private:
-
-    vector <string> instructionName, aluString, relevantstr;
-
-    public:
-
-    
-    void decoder(){
-
-    }
-};
-
-class Decode{
-    private:
     vector <string> instructionName, aluString, relevantstr;
 
     public:
