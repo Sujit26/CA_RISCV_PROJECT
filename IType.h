@@ -68,7 +68,7 @@ class IType
 
 	public:
 	
-		void intialise(string filename)
+		void initialise(string filename)
 		{
 			ifstream ifile(filename.c_str());
 			string line;
