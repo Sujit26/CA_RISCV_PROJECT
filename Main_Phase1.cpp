@@ -6,7 +6,7 @@
 #include "R_Type.h"
 #include "IType.h"
 #include "SBType.h"
-#include "SType.h"
+#include "Stype.h"
 #include "UJType.h"
 #include "UType.h"
 
