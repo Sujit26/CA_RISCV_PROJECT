@@ -20,14 +20,14 @@ private:
     vector<int> extractint(string str){
         vector <int> result;
         int sum,currentint;
-        int count = 0;
+        int counter = 0;
         for(int strIndex = 0 ; strIndex < str.size() ; strIndex++) {
             
             sum = 0;
             bool intfound = 0;
 
             while(strIndex < str.size() && isdigit(str[strIndex])) {
-                if(count==2)
+                if(counter==2)
                 {
                     if(isalpha(str[strIndex]))
                         error = -1;
@@ -39,7 +39,7 @@ private:
             }
             
             if(intfound){
-                count = count +1;
+                counter = counter +1;
                 result.push_back(sum);}
         }
 
@@ -51,11 +51,11 @@ public:
         ifstream ifile(filename.c_str());
         string line;
         while (getline(ifile,line)) {
-            stringstream str(line);
+            stringstream ss(line);
             string token; // temp string named as token
             
             ss >> token;
-            instruction.push_back(token); // putting instrucion name in our database
+            instructions.push_back(token); // putting instrucion name in our database
             
             ss >> token;
             opcode.push_back(token); // putting opcode to  respective instrucion name in our database
@@ -101,7 +101,7 @@ public:
 
         for(int i=0;i<7;i++){
             if(opcodestr[opcodestr.size()-1-i] == '0')
-                MC[i] = 0
+                MC[i] = 0;
             else 
                 MC[i] = 1; //copying opcode string to the opcode field
         }
@@ -110,7 +110,7 @@ public:
 
         for(int i = 0; i<3; i++){
             if(funct3str[funct3str.size()-i-1] == '0')
-                MC[i+12] = 0
+                MC[i+12] = 0;
             else
                 MC[i+12] = 1;
         }
@@ -126,4 +126,4 @@ public:
         return MC;
 
     }
-}
+};

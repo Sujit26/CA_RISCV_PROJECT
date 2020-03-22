@@ -19,7 +19,7 @@ class Registry_File
 				registers.push_back(0);
 			}
 
-			registeers[2] = 200000;
+			registers[2] = 200000;
 		}
 
 		void writeInt(int index,int value)

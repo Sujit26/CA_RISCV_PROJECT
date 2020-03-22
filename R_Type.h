@@ -72,7 +72,7 @@ class RType
 
 		//Checking the list of instructions and checking whether its R type or not
 
-		bool ispresent(string line)
+		bool isPresent(string line)
 		{
 			stringstream ss(line);
 			string ins;

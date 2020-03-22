@@ -6,7 +6,7 @@
 #include "R_Type.h"
 #include "IType.h"
 #include "SBType.h"
-#include "SType.h"
+#include "Stype.h"
 #include "UJType.h"
 #include "UType.h"
 
@@ -19,7 +19,7 @@ int main()
 {	
 
 	IType iTypeInsObj;
-	R_Type rTypeInsObj;
+	RType rTypeInsObj;
 	SBType sbTypeInsObj;
         SType sTypeInsObj;
 	UJType ujTypeInsObj;
@@ -73,7 +73,7 @@ int main()
 			//replacing sp with x2
 			for(int i=1;i<line.size()-2;i++)
 			{
-				if(line[i]=='s'&& line[i+1]=='p' && (line[i-1]==' '|| line[i-1]==' ,' || line[i-1]=='(')&&line[i+2]==' '||line[i+2]==','||line[i+2]==')'||line[i+2]=='\n')
+				if(line[i]=='s'&& line[i+1]=='p' && (line[i-1]==' '|| line[i-1]==',' || line[i-1]=='(')&&line[i+2]==' '||line[i+2]==','||line[i+2]==')'||line[i+2]=='\n')
 				{
 					line[i]='x';
 					line[i+1]='2';
@@ -102,7 +102,7 @@ int main()
 				}
 			}
 
-			if(iTypeInsOBJ.isPresent(line))
+			if(iTypeInsObj.isPresent(line))
 			{
 				machineCode = iTypeInsObj.decode(line);
 				insType = 2;
@@ -155,7 +155,7 @@ int main()
 
 void findLabels(string inputFileName, vector<string> &labelNames , vector<int> &labelLineNumber)
 {
-	ifstream ifile(inputFileName.c_str());
+	ifstream iFile(inputFileName.c_str());
 	if(iFile.is_open())
 	{
 		int lineNo = 0;
