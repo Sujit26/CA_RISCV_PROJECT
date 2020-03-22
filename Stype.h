@@ -51,11 +51,11 @@ public:
         ifstream ifile(filename.c_str());
         string line;
         while (getline(ifile,line)) {
-            stringstream str(line);
+            stringstream ss(line);
             string token; // temp string named as token
             
             ss >> token;
-            instruction.push_back(token); // putting instrucion name in our database
+            instructions.push_back(token); // putting instrucion name in our database
             
             ss >> token;
             opcode.push_back(token); // putting opcode to  respective instrucion name in our database
