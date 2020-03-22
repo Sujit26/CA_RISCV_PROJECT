@@ -9,7 +9,8 @@
 #include "Stype.h"
 #include "UJType.h"
 #include "UType.h"
-
+#include "bintohex.h"//changed
+#include "intohex.h" //changed
 using namespace std;
 
 void findLabels(string, vector<string>& , vector<int>&);
@@ -33,6 +34,7 @@ int main()
 
 	string inputFileName = "input1.txt";
 	string outputFileName = "machineCode.txt";
+	string outputFileName1 = "machineCode1.txt";//changed
 	string basicCodeFileName = "basicCode.txt";
 
 	string dir = "./instructions/";
@@ -48,6 +50,7 @@ int main()
 
 	ifstream iFile(inputFileName.c_str(), ios :: in);
 	ofstream oFile(outputFileName.c_str());
+	ofstream oFile1(outputFileName1.c_str());//changed
 	ofstream oFile2(basicCodeFileName.c_str());
 
 	findLabels(inputFileName, labelNames, labelLineNumber);
@@ -142,9 +145,14 @@ int main()
 			//lineNo need to be converted in address of instruction
 			oFile <<lineNo<<" "<< machineCode <<" "<< endl;
 			oFile2 <<lineNo<<" "<< line << endl;
+			int pe = convert_bitset(machineCode);//changed
+			int ce = convert_hex((lineNo-1)*4);//changed
+			oFile1 <<"0x"<<ce<<" "<<"0x"<< pe <<" "<< endl;//changed
 		}
 		
 		oFile<<lineNo+1<<" 0 0"<<endl;//ending 
+		int ce = convert_hex((lineNo)*4);//changed
+		oFile1 <<"0x"<<ce<<" 0 0"<<endl;//changed
 			
 	}
 	iFile.close();
