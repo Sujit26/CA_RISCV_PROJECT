@@ -95,7 +95,7 @@ void  assembler_initiate(MemoryAccess &memobject)
                 dword = true;
             }
             else if(directive == ".asciiz"){
-                dword = true;
+                asciiz = true;
             }
 
             
