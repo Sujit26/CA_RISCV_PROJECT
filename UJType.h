@@ -24,7 +24,7 @@ class UJType{
 };
 
 void UJType::initialise (string filename){
-	ifstream ifile(filename.c_str);
+	ifstream ifile(filename.c_str());
 	string instName, instOpcode;
 	while(ifile >> instName >> instOpcode){
 		instructions.push_back(instName);
@@ -69,8 +69,8 @@ bitset <32> UJType::decode (string instruction){
 		if(isalpha(instruction[i])){
 			error=1;
 			for(int i=0;i<32;i++)
-				Machinecode[i]=-1;
-			return Machinecode;	
+				machineCode[i]=-1;
+			return machineCode;	
 		}
 		i++;
 	}
