@@ -6,24 +6,27 @@
 #include "R_Type.h"
 #include "IType.h"
 #include "SBType.h"
-#include "SType.h"
+#include "Stype.h"
 #include "UJType.h"
 #include "UType.h"
-#include"ALU.h"
-#include"IAG.h"
-#include"Decode.h"
-#include"Fetch.h"
-#include"RegistryFile.h"
-#include"RegUpdate.h"
-#include"MemoryAccess.h"
-#include"InterStateBuffers.h"
+#include "bintohex.h"//changed
+#include "intohex.h" //changed
+#include "ALU.h"
+#include "IAG.h"
+#include "Decode.h"
+#include "Fetch.h"
+#include "MUX_Y.h"
+#include "RegistryFile.h"
+#include "RegUpdate.h"
+#include "MemoryAccess.h"
+#include "InterStateBuffers.h"
+#include "Assembler.h"
 
 using namespace std;
 
 void findLabels(string, vector<string>& , vector<int>&);
+void memory(InterStateBuffers &,MemoryAccess &,MUX_Y &);
 void writeBack(InterStateBuffers &, RegUpdate &, Registry_File &);
-void print(int i, InterStateBuffers &, Registry_File &);
-void printSummary(InterStateBuffers &);
 
 
 int main()
@@ -32,36 +35,41 @@ int main()
 	IType iTypeInsObj;
 	RType rTypeInsObj;
 	SBType sbTypeInsObj;
-        SType sTypeInsObj;
+    SType sTypeInsObj;
 	UJType ujTypeInsObj;
 	UType uTypeInsObj;
 
-	vector<string> labelNames;
+	InterStateBuffers isb;
 
+	vector<string> labelNames;
 	vector<int> labelLineNumber;
 
 	int insType;
 
-	string inputFileName = "input1.txt";
+	string inputFileName = "input.txt";
 	string outputFileName = "machineCode.txt";
-	sring basicCodeFileName = "basicCode.txt";
+	string outputFileName1 = "machineCode1.txt";//changed
+	string basicCodeFileName = "basicCode.txt";
 
 	string dir = "./instructions/";
 
 	//change name accordingly
-	iTypeInsObj.intialise(dir+"IType.txt");
+	iTypeInsObj.initialise(dir+"IType.txt");
 	rTypeInsObj.initialise(dir + "RType.txt");
 	iTypeInsObj.initialise(dir + "IType.txt");
 	sbTypeInsObj.initialise(dir + "SBType.txt");
-        sTypeInsObj.initialise(dir + "SType.txt");
+    sTypeInsObj.initialise(dir + "SType.txt");
 	ujTypeInsObj.initialise(dir + "UJType.txt");
 	uTypeInsObj.initialise(dir + "UType.txt");
 
+	findLabels(inputFileName, labelNames, labelLineNumber);
+
+
 	ifstream iFile(inputFileName.c_str(), ios :: in);
 	ofstream oFile(outputFileName.c_str());
+	ofstream oFile1(outputFileName1.c_str());//changed
 	ofstream oFile2(basicCodeFileName.c_str());
 
-	findLabels(inputFileName, labelNames, labelLineNumber);
 
 	if(!iFile.is_open()) 
 		cout<<"Error in reading input file";
@@ -84,7 +92,7 @@ int main()
 			//replacing sp with x2
 			for(int i=1;i<line.size()-2;i++)
 			{
-				if(line[i]=='s'&& line[i+1]=='p' && (line[i-1]==' '|| line[i-1]==' ,' || line[i-1]=='(')&&line[i+2]==' '||line[i+2]==','||line[i+2]==')'||line[i+2]=='\n')
+				if(line[i]=='s'&& line[i+1]=='p' && (line[i-1]==' '|| line[i-1]==',' || line[i-1]=='(')&&line[i+2]==' '||line[i+2]==','||line[i+2]==')'||line[i+2]=='\n')
 				{
 					line[i]='x';
 					line[i+1]='2';
@@ -107,13 +115,13 @@ int main()
 					ostringstream numStr;
 					numStr<<offset;
 
-					strig intStr = numStr.str();
+					string intStr = numStr.str();
 
 					line = newline + intStr;
 				}
 			}
 
-			if(iTypeInsOBJ.isPresent(line))
+			if(iTypeInsObj.isPresent(line))
 			{
 				machineCode = iTypeInsObj.decode(line);
 				insType = 2;
@@ -153,80 +161,61 @@ int main()
 			//lineNo need to be converted in address of instruction
 			oFile <<lineNo<<" "<< machineCode <<" "<< endl;
 			oFile2 <<lineNo<<" "<< line << endl;
+			int pe = convert_bitset(machineCode);//changed
+			int ce = convert_hex((lineNo-1)*4);//changed
+			oFile1 <<"0x"<<ce<<" "<<"0x"<< pe <<" "<< endl;//changed
 		}
 		
 		oFile<<lineNo+1<<" 0 0"<<endl;//ending 
+		int ce = convert_hex((lineNo)*4);//changed
+		oFile1 <<"0x"<<ce<<" 0 0"<<endl;//changed
 			
 	}
 	iFile.close();
 	oFile.close();
 	oFile2.close();
-  
-  Registry_File rFile;
+
+	// -----PHASE 2-------
+	Registry_File rFile;
 	Fetch fetch;
+	MUX_Y muxy;
 	Decode decode;
+	MemoryAccess memAccess;
 	RegUpdate regUpdate;
 	ALU alu;
 	IAG iag;
-  
 
-	cout<<" Show register value after every cycle ? (y/n)  ";
-	char c;
-	cin>>c;
-	if(c=='y'||c=='Y') 
-		isb.printRegFile = true;
-	else 
-		isb.printRegFile = false;
-		
-	isb.printISB = false;
-	cout<<" Run step by step ? (y/n)  ";
-	cin>>c;
-	if(c=='y'||c=='Y') 
-		runStepByStep = true;
-	else 
-		runStepByStep = false;
+	decode.initialise();
 
-		int i = 0;
-		char k;
-		while(1)
-		{
-			i++;
-			if(runStepByStep)
-			{
-				k = 'n';
-				while(k != 'r' && k != 'R')
-				{
-					cout<<"\n RUN CYCLE NUMBER : "<<i<<" ? "<<" ( enter 'r' to run & 'e' to terminate) "<<endl;
-					cin>>k;
-				}
-			}
-			
-			if(isb.IR.readInt() == 0 || k == 'e' || k == 'E')
-				break;
+	int i=0;
+	while(1){
+		i++;
+		fetch.get(isb);
+		if(isb.IR.readInt() == 0 || i > 200)
+			break;
 
-			decode.decoder(isb,rFile);
-			alu.compute(isb);
-			memory(isb, memAccess, muxy,cache);
-			writeBack(isb, regUpdate, rFile);
-			iag.step(isb,alu);
-			isb.resetAll();
+		decode.decoder(isb,rFile);
+		alu.compute(isb);
+		memory(isb, memAccess, muxy);
+		writeBack(isb, regUpdate, rFile);
+		iag.step(isb,alu);
+		isb.resetAll();
 
-			writeBack(isb, regUpdate, rFile);
+		cout<<"PC Value : "<< isb.PC <<"  IR :  "<< isb.IR.readBitset()<<"  Instype  :  "<<isb.insType<<endl;
+		if(isb.printRegFile || isb.printISB)	cout<<"===== < Cycle "<<i<<" > ====="<<endl;
+		if(isb.printRegFile)	rFile.print();
+		if(isb.printISB)	isb.printAll();
+	}
+	cout<<"\n\n------------Code execuetd successfully--------------\n\n"<<endl;
+	cout<<" Final register value : \n";
+	rFile.print();
 
-		}
-
-		isb.totalCycles = i-1;
-		cout<<"\n\n---------------- Code executed succesfully ----------------\n\n"<<endl;
-		cout<<" Final register values :\n";	
-		rFile.print();
-		cout<<" Summary :\n";
-		printSummary(isb);
-
+	return 0;
 }
 
 void findLabels(string inputFileName, vector<string> &labelNames , vector<int> &labelLineNumber)
 {
-	ifstrem ifile(inputFileName.c_str());
+	ifstream iFile(inputFileName.c_str());
 	if(iFile.is_open())
 	{
 		int lineNo = 0;
@@ -257,42 +246,27 @@ void findLabels(string inputFileName, vector<string> &labelNames , vector<int> &
 	iFile.close();
 }
 
-void writeBack(InterStateBuffers &isb, RegUpdate &regUpdate, Registry_File &rFile)
-{
-	if(!isb.enablePipe)
-	{
-		if(isb.write_back_location != -1)
-		{
-			regUpdate.update(isb,rFile, isb.write_back_location);
+void memory(InterStateBuffers &isb,MemoryAccess &memAccess ,MUX_Y &muxy){
+			if(isb.isMem == true){
+				if(isb.insType == 4){
+					memAccess.writeMem(isb);
+					muxy.MUX_Y_SELECT = 1;
+				}
+				else {
+					memAccess.readMem(isb);
+					muxy.MUX_Y_SELECT = 2; // for getting register val from memory
+				}
 		}
-	}
-	else
-	{
-		if(isb.wblocW != -1)
-		{
-			regUpdate.update(isb,rFile, isb.wblocW);
+		else if(isb.isjalr == true || isb.insType == 5){
+			muxy.MUX_Y_SELECT = 3;
 		}
-	}
-}
-void writeBack(InterStateBuffers &isb, RegUpdate &regUpdate, Registry_File &rFile)
-{
-		if(isb.write_back_location != -1)
-		{
-			regUpdate.update(isb,rFile, isb.write_back_location);
-		}
-
-}
-void print(int i, InterStateBuffers &isb, Registry_File &rFile)
-{
-	cout<<"===== < Cycle "<<i<<" > ====="<<endl;
-	if(isb.printRegFile)
-	   rFile.print();
-	if(isb.printISB) 
-		isb.printAll();
-	cout<<endl;
+		else
+			muxy.MUX_Y_SELECT = 1;
+		isb.RY.writeInt(muxy.output(isb));
 }
 
-void printSummary(InterStateBuffers &isb)
-{
-	cout<<" Total Cycles \t\t:\t"<<isb.totalCycles<<endl;
+void writeBack(InterStateBuffers &isb, RegUpdate &regUpdate, Registry_File &rFile){
+	if(isb.write_back_location != -1){
+			regUpdate.update(isb,rFile, isb.write_back_location);
+		}
 }
