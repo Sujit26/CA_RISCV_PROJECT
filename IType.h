@@ -107,11 +107,11 @@ class IType
 			vector<int>result1 = extract(instruction);
 			
 			stringstream ins(instruction);
-			string instruct,fuct3_1,opcode_1;
+			string instruct,funct3_1,opcode_1;
 
 			ins>>instruct;
 			//Finding our instruction in the file 
-			int index = find(instructions.begin(),instructions.end(),instruct)-instrutions.begin();
+			int index = find(instructions.begin(),instructions.end(),instruct)-instructions.begin();
 			//extarcting opcode and funct3 of our instruction 
 			opcode_1 = opcode[index];
 			funct3_1 = funct3[index];
@@ -146,4 +146,4 @@ class IType
 
 			return Machine_code;
 		}
-}
+};
