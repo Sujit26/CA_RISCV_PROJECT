@@ -19,7 +19,7 @@ int main()
 {	
 
 	IType iTypeInsObj;
-	R_Type rTypeInsObj;
+	RType rTypeInsObj;
 	SBType sbTypeInsObj;
         SType sTypeInsObj;
 	UJType ujTypeInsObj;
