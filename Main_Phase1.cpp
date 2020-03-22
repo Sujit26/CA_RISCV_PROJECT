@@ -10,7 +10,6 @@
 #include "UJType.h"
 #include "UType.h"
 #include "bintohex.h"//changed
-#include "intohex.h" //changed
 using namespace std;
 
 void findLabels(string, vector<string>& , vector<int>&);
@@ -146,13 +145,13 @@ int main()
 			oFile <<lineNo<<" "<< machineCode <<" "<< endl;
 			oFile2 <<lineNo<<" "<< line << endl;
 			int pe = convert_bitset(machineCode);//changed
-			int ce = convert_hex((lineNo-1)*4);//changed
-			oFile1 <<"0x"<<ce<<" "<<"0x"<< pe <<" "<< endl;//changed
+			int ce = (lineNo-1)*4;//changed
+			oFile1 <<hex<<ce<<" "<<hex<< pe <<" "<< endl;//changed
 		}
 		
 		oFile<<lineNo+1<<" 0 0"<<endl;//ending 
-		int ce = convert_hex((lineNo)*4);//changed
-		oFile1 <<"0x"<<ce<<" 0 0"<<endl;//changed
+		int ce = (lineNo)*4;//changed
+		oFile1 <<hex<<ce<<" 0 0"<<endl;//changed
 			
 	}
 	iFile.close();
