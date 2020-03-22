@@ -77,7 +77,7 @@ void  assembler_initiate(MemoryAccess &memobject)
         else if(start == 1){ //.data portion has started 
             stringstream ss(current);
             vector <int> data;
-            bool Word = 0, byte = 0, half=0 ,dword=0;
+            bool Word = 0, byte = 0, half=0 ,dword=0, asciiz = 0;
             string token;
             string directive;
             ss >> token;
@@ -92,6 +92,9 @@ void  assembler_initiate(MemoryAccess &memobject)
                 half = true;
             }
             else if(directive == ".dword"){
+                dword = true;
+            }
+            else if(directive == ".asciiz"){
                 dword = true;
             }
 
@@ -120,19 +123,28 @@ void  assembler_initiate(MemoryAccess &memobject)
                 }
                 else if(byte == true){
                     for(int i=0; i < data.size(); i++){
-                        memobject.writeByte(address,data[i]); //Word $$$$$
+                        memobject.writeByte(address,data[i]); //byte $$$$$
                         address += 1;
                     }
                     else if(half == true){
                     for(int i=0; i < data.size(); i++){
-                        memobject.writeByte(address,data[i]); //Word $$$$$
+                        memobject.writeByte(address,data[i]); //half $$$$$
                         address += 2;
                     }
                     else if(dword == true){
                     for(int i=0; i < data.size(); i++){
-                        memobject.writeByte(address,data[i]); //Word $$$$$
+                        memobject.writeByte(address,data[i]); //dword $$$$$
                         address += 8;
                     }
+
+                    else if(asciiz == true){
+                    for(int i=0; i < data.size(); i++){
+                        // just assingning ascii value of that char, we will handle it while reading
+                        memobject.writeByte(address,int(data[i])); //ascii $$$$$
+                        address += 1;
+                    }
+
+
                 }
             }
             
