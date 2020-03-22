@@ -9,7 +9,6 @@
 using namespace std;
 
 class SBType {
-
     // instruction :-  [ imm[12] ][ imm [10:5] ][ rs2 ][ rs1 ][ funct3 ][ imm[4:1] ][ imm[11] ][ opcode ]
     vector<string> instructions;
     vector<string> opcode;
