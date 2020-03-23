@@ -109,7 +109,7 @@ int main(){
 					string newline;
 					for(int j=0;j<found;j++) newline.push_back(line[j]);
 					int offset = labelLineNumber[i] - lineNo -i;
-				//	offset *= 4; // Multiplying offset by 4
+					offset *= 2; // Multiplying offset by 2 for correct execution of Phase1 with venus
 					ostringstream numStr;
 					numStr << offset;
 					string intStr = numStr.str();
@@ -175,19 +175,6 @@ int main(){
 	oFile.close();
 	oFile1.close();
 	oFile2.close();
-
-	char cacheChoice = 'n';
-	// cout<<"Enable cache ? (y/n) : ";
-	// cin>>cacheChoice;
-	int cs=512,bs=4;
-	if(cacheChoice=='y'||cacheChoice=='Y'){
-		isb.enableCache = true;
-		cout<<" Enter cache size in Bytes (recommended size - 512 B) : ";
-		cin>>cs;
-		cout<<" Enter cache block size in Bytes (recommended size - 4 B) : ";
-		cin>>bs;
-	}
-	else isb.enableCache = true;
 
 	Registry_File rFile;
 	Fetch fetch;
