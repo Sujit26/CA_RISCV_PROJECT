@@ -99,7 +99,7 @@ public:
         opcodestr = opcode[index];
         funct3str = funct3[index];
         bitset <12> immediate(parameters[2]); // loading offset
-        bitset <5> rs1(parameters[0]),rs2(parameters[1]);
+        bitset <5> rs1(parameters[1]),rs2(parameters[0]);
 
         for(int i=0;i<7;i++){
             if(opcodestr[opcodestr.size()-1-i] == '0')
