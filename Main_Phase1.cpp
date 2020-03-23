@@ -151,7 +151,7 @@ int main()
 			//lineNo need to be converted in address of instruction
 			int error=1;
 			for(int i=0;i<32;i++)
-			{	if(MachineCode[i]!=-1)
+			{	if(machineCode[i]!=-1)
 					error=0;
 			}
 			if(error){
