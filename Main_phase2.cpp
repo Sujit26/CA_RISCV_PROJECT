@@ -61,6 +61,10 @@ int main()
     sTypeInsObj.initialise(dir + "SType.txt");
 	ujTypeInsObj.initialise(dir + "UJType.txt");
 	uTypeInsObj.initialise(dir + "UType.txt");
+	
+	MemoryAccess memAccess;
+
+	assembler_initiate(memAccess);
 
 	findLabels(inputFileName, labelNames, labelLineNumber);
 
