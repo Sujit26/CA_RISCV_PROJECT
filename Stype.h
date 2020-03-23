@@ -108,12 +108,9 @@ public:
         for(int i=0;i<5;i++)
             MC[i+7] = immediate[i];
 
-        for(int i = 0; i<3; i++){
-            if(funct3str[funct3str.size()-i-1] == '0')
-                MC[i+12] = 0;
-            else
-                MC[i+12] = 1;
-        }
+         for(int i = 0; i<3; i++)
+            MC[i+12] = (funct3str[funct3str.size()-i-1] == '0') ? 0 : 1;
+        
         for(int i=0;i<5;i++)
             MC[i+15] = rs1[i];
         
