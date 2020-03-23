@@ -103,7 +103,7 @@ class SBType {
         bitset <32> MachineCode;
         stringstream ss(instruction); //helpful for tokenizing space separated strings.
         vector <int> parameters = extractint(instruction); // extracted all register names, offsets etc.
-        if(parameters.size()<3||error==-1||parameters[0]>32||parameters[0]<0||parameters[1]<0||parameters[1]>32)
+        if(parameters.size()!=3||error==-1||parameters[0]>32||parameters[0]<0||parameters[1]<0||parameters[1]>32)
         {
             for(int i=0;i<32;i++)
                 MachineCode[i]=-1;
