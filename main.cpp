@@ -67,9 +67,12 @@ int main(){
 
 	assembler_initiate(memAccess);
 	cout<<"check1\n";
-	ifstream iFile(inputFileName.c_str(), ios :: in);cout<<"check2\n";
-	ofstream oFile(outputFileName.c_str());cout<<"check3\n";
+	
+	ifstream iFile(inputFileName.c_str(), ios :: in);
+	ofstream oFile(outputFileName.c_str());
+	ofstream oFile1(outputFileName1.c_str());//changed
 	ofstream oFile2(basicCodeFileName.c_str());
+
 
 	cout<<"\n::::::::::  RISC V SIMULATOR :::::::::::::\n\n"<<endl;
 	
