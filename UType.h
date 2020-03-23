@@ -81,7 +81,7 @@ bitset <32> UType::decode (string instruction){
 	else
 		rdNum = 10*(rdName[1]-'0') + (rdName[2]-'0');
 	
-	if(rdNum<0||rdNum>32)
+	if(rdNum<0||rdNum>31)
 	{
 		for(int i=0;i<32;i++)
 				machineCode[i]=-1;
