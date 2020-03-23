@@ -138,13 +138,34 @@ int main(){
 				machineCode = bitset<32>(0);
 				insType = -1;
 			}
-			oFile <<lineNo<<" "<< machineCode <<" "<< insType << endl;
+			//machine code needs to be converted in hexa;
+			//lineNo need to be converted in address of instruction
+			int error=1;
+			for(int i=0;i<32;i++)
+			{	if(machineCode[i]!=-1)
+					error=0;
+			}
+			if(error){
+				iFile.close();
+				oFile.close();
+				oFile1.close();
+				oFile2.close();
+				cout<<"ERROR !! Some parameters missing... :"<<line<<endl;
+				return 0;
+			}
+			oFile <<lineNo<<" "<< machineCode <<" "<< endl;
 			oFile2 <<lineNo<<" "<< line << endl;
+			int pe = convert_bitset(machineCode);//changed
+			int ce = (lineNo-1)*4;//changed
+			oFile1 <<"0x"<<hex<<ce<<" "<<"0x"<<hex<< pe <<" "<< endl;//changed
 		}
-		oFile<<lineNo+1<<" 0 0"<<endl;
+		oFile<<lineNo+1<<" 0 0"<<endl;//ending 
+		int ce = (lineNo)*4;//changed
+		oFile1 <<"0x"<<hex<<ce<<" 0 0"<<endl;//changed
 	}
 	iFile.close();
 	oFile.close();
+	oFile1.close();
 	oFile2.close();
 
 	char cacheChoice = 'n';
