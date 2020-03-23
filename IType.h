@@ -125,7 +125,7 @@ class IType
 			{
 				for(int i=0;i<32;i++)
 					Machine_code[i]=-1;
-				
+				error=0;
 				return Machine_code;
 			}
 		
