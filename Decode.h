@@ -1,12 +1,11 @@
 #pragma once
+#include "InterStateBuffers.h"
+#include "RegistryFile.h"
 #include<iostream>
 #include<fstream>
 #include <sstream>
 #include<string.h>
 #include<bitset>
-#include "RegistryFile.h"
-#include "InterStateBuffers.h"
-
 
 using namespace std;
 
@@ -27,29 +26,29 @@ class Decode{
     int locA, locB, locC;
     bool hasFunc3 = true;
     bool hasFunc7 = true;
-    int pWrite;     // holds the write register value for the previous instruction
-    int ppWrite;    // the instruction before that
+    bool stallA = false;
+    bool stallB = false;
+    bool stallC = false;
+
 
 
     // initialising function
     void initialise() {
         ifstream ifile("ALU.txt");
         string line,temp;
-
-        while(getline(ifile,line)){
+        
+        while(getline(ifile,line))
+        {
             stringstream ss(line);
-            
-            ss >> temp ; //temp contain name (intitials of instructions)
+            ss >> temp; // temp now has the instruction name ex : add, sub etc,
             instructionName.push_back(temp);
-            
-            ss >> temp; // string corresponding to alu thing
-            aluString.push_back(temp);
-
             ss >> temp;
+            aluString.push_back(temp); // ALU INSTRUCTION given to the ALU guy
+            ss >> temp ; // temp now has the concatenated string. we'll use this to map to name of instruction
             relevantstr.push_back(temp);
         }
 
-        ifstream.close()
+        ifile.close();
     }
 
     //actual decoder
@@ -67,10 +66,23 @@ class Decode{
         rs2 = 0;
         rd = 0;
 
-        int insType = ibs.insType;
+		int insType;
+		if(!ibs.enablePipe) insType = ibs.insType;
+		else insType = ibs.insTypeD;
         bitset<32> IR(ibs.IR.readInt());
 
 
+        if(insType == 0){
+            opcode = 51;
+            func3 = 0;
+            func7 = 0;
+            rs1 = 0;
+            rs2 = 0;
+            rd = 0;
+            ibs.ALU_OP = "add";
+            hasFunc3 = true;
+            hasFunc7 = true;
+        }
         if(insType == 1){
             // RType | opcode (7) | rd (5) | funct3 | rs1(5) | rs2 (5) | funct7 |
             for(int i=0;i<7;i++){
@@ -216,23 +228,100 @@ class Decode{
         locB = rs2.to_ulong();
         locC = rd.to_ulong();
 
+        //Concatenated opcode func3 and func7 and checked for ALU_OP
+        string relStr;
+        relStr = opcode.to_string();
+        if(hasFunc3){
+            relStr = relStr + func3.to_string(); 
+            if(hasFunc7){
+                relStr = relStr + func7.to_string();
+            }
+            else{
+                relStr = relStr + "-1";
+            }
+        }
+        else{
+            relStr = relStr + "-1";
+        }
+
 				
         //Register file object will be passed and values will be read
         // MUX B Implementation
         //Uncomment the following lines once the register file has been created and update the names.
 
         //Feeding buffer RA
-        
-        ibs.RA.writeInt(regFile.readInt(locA));
-    
+
+
+        if(locA == ibs.pWrite && ibs.pWrite!=0 && ibs.enablePipe == true){
+            // if pipelining and data forwarding is true
+            if(ibs.enableDF == true){
+                if(ibs.pInst == "lw" || ibs.pInst == "lb" || ibs.pInst == "lh"){
+                    stallA = true;
+                }
+                else{
+                    stallA = false;
+                    ibs.RA.writeInt(ibs.RZ.readInt());
+                }
+            }
+            // if only pipelining is true
+            else{
+                // ibs.stall the pipeline
+                stallA = true;
+            }
+        }
+        else if(locA == ibs.ppWrite && ibs.ppWrite != 0 && ibs.enablePipe == true){
+            if(ibs.enableDF == true){
+                // for general instruction, no load exceptions are here
+                stallA = false;
+                ibs.RA.writeInt(ibs.RY.readInt());
+            }
+            // if only pipelining is true
+            else{
+                // ibs.stall the pipeline
+                stallA = true;
+            }
+        }
+        else{
+            stallA = false;
+            ibs.RA.writeInt(regFile.readInt(locA));
+        }
 
 
         //Feeding in RB
         //Negations have been added, in case a new function is made replace it here.
 
-        
-        
-        if(insType == 2 || insType == 4){
+        if(insType == 1 || insType ==3){
+            if(locB == ibs.pWrite && ibs.pWrite !=0 && ibs.enablePipe == true){
+                if(ibs.enableDF == true){
+                    if(ibs.pInst == "lw" || ibs.pInst == "lb" || ibs.pInst == "lh"){
+                        stallB = true;
+                    }
+                    else{
+                        stallB = false;
+                        ibs.RB.writeInt(ibs.RZ.readInt());
+                    }
+                }
+                // if only pipelining is true
+                else{
+                    // ibs.stall
+                    stallB = true; 
+                }
+            }
+            else if(locB == ibs.ppWrite && ibs.ppWrite != 0 && ibs.enablePipe == true){
+                if(ibs.enableDF == true){
+                    stallB = false;
+                    ibs.RB.writeInt(ibs.RY.readInt());
+                }
+                else{
+                    stallB = true;
+                }
+            }
+            else{
+                stallB = false;
+                ibs.RB.writeInt(regFile.readInt(locB));
+            }
+        }
+        else if(insType == 2 || insType == 4){
 						if(imm1[11] == 0){
                 immVal1 = imm1.to_ulong();
             }
@@ -281,26 +370,131 @@ class Decode{
             ibs.pc_offset = 0;
         }
 
-        ibs.RM.writeInt(regFile.readInt(locC));
+        ibs.RM = ibs.RMD;
 
-
-        //Concatenated opcode func3 and func7 and checked for ALU_OP
-        string relStr;
-        relStr = opcode.to_string();
-        if(hasFunc3){
-            relStr = relStr + func3.to_string(); 
-            if(hasFunc7){
-                relStr = relStr + func7.to_string();
+        if(insType == 4){
+            if(locC == ibs.pWrite && ibs.pWrite !=0 && ibs.enablePipe == true){
+                if(ibs.enableDF == true){
+                    if(ibs.pInst == "lw" || ibs.pInst == "lb" || ibs.pInst == "lh"){
+                        stallC = true;
+                    }
+                    else{
+                        stallC = false;
+                        ibs.RMD.writeInt(ibs.RZ.readInt());
+                    }
+                }
+                else{
+                    //ibs.stall
+                    stallC = true;
+                }
+            }
+            else if(locC == ibs.ppWrite && ibs.ppWrite !=0 && ibs.enablePipe == true){
+                if(ibs.enableDF == true){
+                    stallC = false;
+                    ibs.RMD.writeInt(ibs.RY.readInt());
+                }
+                else{
+                    //ibs.stall
+                    stallC = true;
+                }
             }
             else{
-                relStr = relStr + "-1";
+                stallC = false;
+                ibs.RMD.writeInt(regFile.readInt(locC));
             }
         }
-        else{
-            relStr = relStr + "-1";
+        if(!ibs.enablePipe){
+            ibs.RM = ibs.RMD;
         }
 
+        if(ibs.hazard_type == 2){
+            int ra = ibs.RA.readInt();
+            int rb = ibs.RB.readInt();
+            ibs.branch_address = ra + rb;
+        }
+
+        //Branch prediction checking
+        bool state;
+        if(insType == 3){
+            int ra = ibs.RA.readInt();
+            int rb = ibs.RB.readInt();
+            int rau;
+            int rbu;
+            if(ra >= 0){
+                rau = ra;
+            }
+            else{
+                rau = INT_MAX -ra;
+            }
+            if(rb >= 0){
+                rbu = rb;
+            }
+            else{
+                rbu = INT_MAX -rb;
+            }
+
+            if(relStr == "1100011000-1"){
+                // beq instruction
+                state = (ra == rb) ? 1 : 0;
+            }
+            if(relStr == "1100011001-1"){
+                // bne instruction
+                state = (ra != rb) ? 1 : 0;
+            }
+            if(relStr == "1100011100-1"){
+                // blt instruction
+                state = (ra < rb) ? 1 : 0;
+            }
+            if(relStr == "1100011101-1"){
+                // bge instruction
+                state = (ra >= rb) ? 1 : 0;
+            }
+            if(relStr == "1100011110-1"){
+                // bltu instruction
+                state = (rau < rbu) ? 1 : 0;
+            }
+            if(relStr == "1100011111-1"){
+                // bgeu instruction
+                state = (rau >= rbu) ? 1 : 0;
+            }
+
+            if(ibs.taken == true && state == false){
+                ibs.mispredNumber++;
+                ibs.isMispred = true;
+                // Implement flush logic
+                // Put ba_def in PC
+                ibs.nextPC = ibs.branch_address_def;
+            }
+            else if(ibs.taken == false && state == true){
+                ibs.mispredNumber++;
+                ibs.isMispred = true;
+                // Implement flush logic
+                // Put ba in PC
+                ibs.nextPC = ibs.branch_address;
+            }
+            else{
+                //Sab sahi hai bero
+                ibs.isMispred = false;
+            }
+
+        }
+
+				if((ibs.hazard_type == 1 || ibs.hazard_type == 2) && ibs.enablePipe){
+					// locC value save karni hai ie register number
+					regFile.writeInt(locC, ibs.returnAddD);
+
+				}
+
         //Updated ALU_OP
+
+        if(stallA || stallB || stallC){
+            ibs.stall = true;
+            ibs.numStall++;
+        }
+        else{
+            ibs.stall = false;
+        }
+
         for(int i=0;i<instructionName.size(); i++){
 					
             if(relevantstr[i] == relStr){
@@ -312,6 +506,9 @@ class Decode{
                     ibs.isjalr = false;
                 }
 
+                ibs.ppInst = ibs.pInst;
+                ibs.pInst = instructionName[i];
+
                 if(instructionName[i] == "lb" || instructionName[i] == "lw" || instructionName[i] == "lh" || instructionName[i] == "ld" || instructionName[i] == "lbu" || instructionName[i] == "lhu" ||instructionName[i] == "lwu" ||  ibs.insType == 4){
                             ibs.isMem = true;
                     }
@@ -319,8 +516,21 @@ class Decode{
                             ibs.isMem = false;									
                 }
             }
-
 						
+        }
+
+        
+	
+        // Updating the previous write registers
+        // if ibs.stall is activated, feed ibs.pWrite with 0 or insType == 4 ??
+
+
+        ibs.ppWrite = ibs.pWrite;
+        if(insType == 4 || ibs.stall == true){
+            ibs.pWrite = 0;
+        }
+        else{
+            ibs.pWrite = locC;
         }
         
     }

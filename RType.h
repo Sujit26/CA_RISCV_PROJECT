@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -8,24 +10,22 @@
 
 using namespace std;
 
-class SBType {
-
-    // instruction :- imm[12] | imm [10:5] | rs2 | rs1 | funct3 | imm[4:1] | imm[11] | opcode
-    vector<string> instructions;
-    vector<string> opcode;
-    vector<string> funct3;
+class RType {
+    private:
+    vector <string> instructions;    // instruction : 0->31 | opcode (7) | rd (5) | funct3 | rs1(5) | rs2 (5) | funct7 |
+    vector <string> opcode;
+    vector <string> funct3;
+    vector <string> funct7;
 
     /* Function extracts the all the integers in an instruction basically */
-    /* for ex : beq x2,x3,offset : will extract 2,3 i.e parameters needed for MC generation.*/
-    vector <int> extractint(string str) { 
-        // recieves a string and extracts all the integers and returns them in a list (vector)
-        // countCommas counts the commas to ensure no numbers are picked off the LABEL.
+    /* for ex : sw x2,24(x3) : will extract 2,24,3 i.e parameters needed for MC generation.*/
+    vector <int> extractint(string str) { // recieves a string and extracts all the integers and returns them in a list (vector)
         vector <int> result;
-        int sum,currentint, sum2;
+        int sum,currentint;
         for(int strIndex = 0 ; strIndex < str.size() ; strIndex++) {
             
             sum = 0;
-            bool intfound = 0, intfound2 = 0;
+            bool intfound = 0;
 
             while(strIndex < str.size() && isdigit(str[strIndex])) {
                 currentint = str[strIndex] - '0';
@@ -33,36 +33,21 @@ class SBType {
                 strIndex++;
                 intfound = 1;
             }
-
-            if(str[strIndex] == '-'){
-                sum2 = 0;
-                strIndex++;
-                while(strIndex < str.size() && isdigit(str[strIndex])){
-                    currentint = str[strIndex] - '0';
-                    sum2 = sum2*10 + currentint;
-                    strIndex++;
-                    intfound2 = 1;
-                }
-                sum2 = sum2*(-1);
-            }
             
             if(intfound)
                 result.push_back(sum);
-            
-            if(intfound2)
-                result.push_back(sum2);
         }
 
         return result; //returning vector of extracted parameters
     }
-
-
+    
     public:
 
     // initialise the vectors with their respective values from the input file.
     void initialise (string filename) {
         ifstream ifile(filename.c_str());
         string line;
+        
         while(getline(ifile,line)) {
             stringstream ss(line);
             string token;
@@ -72,11 +57,13 @@ class SBType {
             opcode.push_back(token);
             ss >> token;
             funct3.push_back(token);
+            ss >> token;
+            funct7.push_back(token);
         }
     }
-
-    bool isPresent(string command)
-    {
+    
+    // checks if given command is present in the list of S Type instructions.
+    bool isPresent(string command) {
         stringstream ss(command);
         string ins;
         ss >> ins;
@@ -86,32 +73,39 @@ class SBType {
         else
         return true;
     }
-
+	
+    
     bitset <32> decode (string instruction) {
+		/*Edit this*/
         bitset <32> MachineCode;
         stringstream ss(instruction); //helpful for tokenizing space separated strings.
         vector <int> parameters = extractint(instruction); // extracted all register names, offsets etc.
         string action;
         ss >> action;
         int index = find(instructions.begin(),instructions.end(),action) - instructions.begin();
-        string opcodestr,funct3str;
+        string opcodestr,funct3str,funct7str;
         
         opcodestr = opcode[index];
         funct3str = funct3[index];
-        bitset <12> immediate(parameters[2]);//The label offset has been taken care of
-        bitset <5> rs1(parameters[0]),rs2(parameters[1]);
+        funct7str = funct7[index];
 
-        for(int i=0;i<7;i++)
+
+        
+        //Settting up RS1 , RS2  , RD
+        bitset <5> rs2(parameters[2]),rs1(parameters[1]);
+        bitset <5> rd (parameters[0]);
+        
+        for(int i=0;i<7;i++) {
             MachineCode[i] = (opcodestr[opcodestr.size()-1-i] == '0') ? 0 : 1; //copying opcode string to the opcode field
-        
-        MachineCode[7] = immediate[10];
+		}
 
-        for(int i=0;i<4;i++)
-            MachineCode[i+8] = immediate[i];
-
+        for(int i=0;i<5;i++) {
+            MachineCode[i+7] = rd[i];
+		}
         
-        for(int i = 0; i<3; i++)
-            MachineCode[i+12] = (funct3str[funct3str.size()-i-1] == '0') ? 0 : 1;
+        for(int i = 0; i<3; i++) {
+			MachineCode[i+12] = (funct3str[funct3str.size()-i-1] == '0') ? 0 : 1;
+		}
 
         for(int i=0;i<5;i++)
             MachineCode[i+15] = rs1[i];
@@ -119,12 +113,13 @@ class SBType {
         for(int i=0; i<5 ; i++)
             MachineCode[i+20] = rs2[i];
         
-        for(int i=0;i<6;i++)
-            MachineCode[i+25] = immediate[i+4];
-        
-        MachineCode[31] = immediate[11];
+        for(int i=0;i<7;i++)
+            MachineCode[i+25] = (funct7str[funct7str.size()-i-1] == '0') ? 0 : 1;
 
         return MachineCode;
 
     }
+
+
+    
 };

@@ -16,7 +16,10 @@ class MUX_Y{
             return ibf.mem_register;
         }
         else if(MUX_Y_SELECT == 3){
-            return ibf.return_address;
+						if(!ibf.enablePipe)
+	            return ibf.return_address;
+						else 
+							return ibf.returnAddM;
         }
         else{
             cout<<" the MUX_Y_SELECT IS SET WRONG!"<<endl;

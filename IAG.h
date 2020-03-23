@@ -8,6 +8,7 @@ using namespace std;
 class IAG{
 	public:
 		
+	//For unpipelined version
 		void step(InterStateBuffers &isb, ALU &alu){
 			if(isb.isjalr == true){
 				isb.PC = isb.RZ.readInt();
@@ -21,6 +22,19 @@ class IAG{
 			else{
 				isb.PC++;
 			}
+			isb.return_address = isb.PC+1;
+			return;
+		}
+
+		//For pipelined version
+		void update(InterStateBuffers &isb){
+			isb.PC++;
+			isb.return_address = isb.PC+1;
+			return;
+		}
+
+		void jumpPC(InterStateBuffers &isb,int branchTarget){
+			isb.PC = branchTarget;
 			isb.return_address = isb.PC+1;
 			return;
 		}

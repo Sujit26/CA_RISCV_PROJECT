@@ -36,6 +36,26 @@ vector <int> extractint(string str) { // recieves a string and extracts all the 
         return result; //returning vector of extracted parameters
     }
 
+vector <int> extractasc(string str) { // recieves a string and extracts all the integers and returns them in a list (vector)
+        vector <int> result;
+        bool valid1 = 0,exitint = 0;
+        for(int strIndex = 0 ; strIndex < str.size() && !exitint; strIndex++) {
+            while(valid1) {
+                if(str[strIndex] == '"'){
+                    exitint = 1;
+                    break;
+                }
+                result.push_back(int(str[strIndex]));
+                strIndex++;
+            }
+
+            if(str[strIndex] == '"'){
+                valid1 = 1;
+            }
+        }
+        return result; //returning vector of extracted parameters
+    }
+
 void  assembler_initiate(MemoryAccess &memobject)
 {
     ifstream ifile("input.txt");
@@ -48,7 +68,6 @@ void  assembler_initiate(MemoryAccess &memobject)
     bool labeldef = 0 ;
     int address =  0;
     
-
     while(getline(ifile,current))
     {
         bool useful = false;
@@ -98,17 +117,17 @@ void  assembler_initiate(MemoryAccess &memobject)
                 asciiz = true;
             }
 
-            
                 if(token[token.size()-1] == ':'){
                     labeldef = 1;
                     token.pop_back();
-                    data = extractint(current);
+                    if(!asciiz)
+                        data = extractint(current);
+                    else
+                        data = extractasc(current);
                 }
-
             //write the array to memory  (if at all it is an array ). , else write the single value or byte.
             
             if(labeldef){
-                
                 if(data.size() > 1){
                     labelLookup.insert(make_pair(token,address));
                 }
@@ -126,27 +145,23 @@ void  assembler_initiate(MemoryAccess &memobject)
                         memobject.writeByte(address,data[i]); //byte $$$$$
                         address += 1;
                     }
-}
-                    else if(half == true){
+                }   else if(half == true){
                     for(int i=0; i < data.size(); i++){
                         memobject.writeByte(address,data[i]); //half $$$$$
                         address += 2;
                     }
-}
-                    else if(dword == true){
+                }   else if(dword == true){
                     for(int i=0; i < data.size(); i++){
                         memobject.writeByte(address,data[i]); //dword $$$$$
                         address += 8;
                     }
-
- }                   else if(asciiz == true){
+                }   else if(asciiz == true){
+                    cout<<"CHECK\n";
                     for(int i=0; i < data.size(); i++){
                         // just assingning ascii value of that char, we will handle it while reading
-                        memobject.writeByte(address,int(data[i])); //ascii $$$$$
+                        memobject.writeByte(address,data[i]); //ascii $$$$$
                         address += 1;
                     }
-
-
                 }
             }
             

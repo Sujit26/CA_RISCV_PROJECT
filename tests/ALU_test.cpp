@@ -1,26 +1,23 @@
-#pragma once
-#include <bitset>
-#include <iostream>
-#include <fstream>
-#include <string>
-#include"InterStateBuffers.h"
-
+#include <bits/stdc++.h>
+#include "InterStateBuffers.h"
 
 using namespace std;
 
 
 
 class ALU {
+	
 	private:
 	int RA,RB;
 	unsigned RAU,RBU;
-    public:
-    bool state;
-    int result;
+	
+	public:
+	bool state;
+	int result;
 
     void compute(InterStateBuffers &object) 
     {
-        string ins = object.ALU_OP;
+        	string ins = object.ALU_OP;
 		RA = object.RA.readInt(); // reading both values before hand
 		RB = object.RB.readInt();
 		RAU = object.RA.readInt(); // reading both values before hand
@@ -36,14 +33,6 @@ class ALU {
 		}
 		else if(ins == "mul"){
 			result = RA * RB;
-			object.RZ.writeInt(result);
-		}
-		else if(ins == "div"){
-			result = RA / RB;
-			object.RZ.writeInt(result);
-		}
-		else if(ins == "rem"){
-			result = RA % RB;
 			object.RZ.writeInt(result);
 		}
 		else if(ins == "and"){
@@ -62,7 +51,7 @@ class ALU {
 			result = RA << RB ;
 			object.RZ.writeInt(result);
 		}
-		else if(ins == "srl"){
+		else if(ins == "slr"){
 			result = RA >> RB;
 			object.RZ.writeInt(result);
 		}
@@ -81,12 +70,6 @@ class ALU {
 		else if(ins == "bltu"){
 			state = (RAU < RBU) ? 1 : 0;
 		}
-		else if(ins == "beq"){
-			state = RA == RB ? 1 : 0;
-		}
-	    	else if(ins == "bne"){
-			state = RA != RB ? 1 : 0;
-		}
 		else if(ins == "bgtu"){
 			state = (RAU > RBU) ? 1 : 0;
 		}
@@ -103,10 +86,26 @@ class ALU {
 			object.RZ.writeInt(finalresult.to_ulong());
 		}
 		else{
-			cout<<"Sorry instruction "<<ins<< " not found ! "<<endl;
+			cout<<"Sorry instruction not found ! "<<endl;
 		}
 		
     }
 
     
 };
+
+int main(){
+	InterStateBuffers obj;
+	obj.resetAll();
+	obj.RA.writeInt(20); //load values of RA and RB
+	obj.RB.writeInt(20);
+	obj.ALU_OP = " "; //write ALU operation here for example : "add" ,"sub" , "xor" etc.
+	ALU object;
+	object.compute(obj);
+	int result = obj.RZ.readInt(); // result is the value stored in RZ
+	int state = object.state; // shows the state variable (result of comparison (bool for blt etc.))
+	cout<<" the current RZ = "<<result<<" and state : "<<state<<endl; 
+	return 0;
+}
+
+
