@@ -87,6 +87,8 @@ public:
         {
             for(int i=0;i<32;i++)
                 MC[i]=-1;
+            
+                error = 0;
                 return MC;
         }
         string action;
