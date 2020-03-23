@@ -149,6 +149,18 @@ int main()
 			}
 			//machine code needs to be converted in hexa;
 			//lineNo need to be converted in address of instruction
+			int error=1;
+			for(int i=0;i<32;i++)
+			{	if(MachineCode[i]!=-1)
+					error=0;
+			}
+			if(error){
+				iFile.close();
+				oFile.close();
+				oFile1.close();
+				oFile2.close();
+				return;
+			}
 			oFile <<lineNo<<" "<< machineCode <<" "<< endl;
 			oFile2 <<lineNo<<" "<< line << endl;
 			int pe = convert_bitset(machineCode);//changed
@@ -163,6 +175,7 @@ int main()
 	}
 	iFile.close();
 	oFile.close();
+	oFile1.close();
 	oFile2.close();
 
 }
