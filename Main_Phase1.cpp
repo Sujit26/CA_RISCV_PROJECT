@@ -159,7 +159,8 @@ int main()
 				oFile.close();
 				oFile1.close();
 				oFile2.close();
-				return;
+				cout<<"ERROR !! Some parameters missing... :"<<line<<endl;
+				return 0;
 			}
 			oFile <<lineNo<<" "<< machineCode <<" "<< endl;
 			oFile2 <<lineNo<<" "<< line << endl;
