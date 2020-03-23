@@ -151,12 +151,12 @@ int main()
 			oFile2 <<lineNo<<" "<< line << endl;
 			int pe = convert_bitset(machineCode);//changed
 			int ce = (lineNo-1)*4;//changed
-			oFile1 <<0x<<hex<<ce<<" "<<0x<<hex<< pe <<" "<< endl;//changed
+			oFile1 <<"0x"<<hex<<ce<<" "<<"0x"<<hex<< pe <<" "<< endl;//changed
 		}
 		
 		oFile<<lineNo+1<<" 0 0"<<endl;//ending 
 		int ce = (lineNo)*4;//changed
-		oFile1 <<0x<<hex<<ce<<" 0 0"<<endl;//changed
+		oFile1 <<"0x"<<hex<<ce<<" 0 0"<<endl;//changed
 			
 	}
 	iFile.close();
