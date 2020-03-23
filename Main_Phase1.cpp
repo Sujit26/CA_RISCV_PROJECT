@@ -47,6 +47,10 @@ int main()
         sTypeInsObj.initialise(dir + "SType.txt");
 	ujTypeInsObj.initialise(dir + "UJType.txt");
 	uTypeInsObj.initialise(dir + "UType.txt");
+	
+	MemoryAccess memAccess;
+
+	assembler_initiate(memAccess);
 
 	ifstream iFile(inputFileName.c_str(), ios :: in);
 	ofstream oFile(outputFileName.c_str());
