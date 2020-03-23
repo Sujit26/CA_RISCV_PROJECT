@@ -115,19 +115,19 @@ class IType
 			//extarcting opcode and funct3 of our instruction 
 			opcode_1 = opcode[index];
 			funct3_1 = funct3[index];
-
-			rd = result1[0];
-			rs1 = result1[1];
-			immediate = result1[2];
-			
-			
-			if(error==-1||result1.size()<3)
+			if(error==-1||result1.size()!=3)
 			{
 				for(int i=0;i<32;i++)
 					Machine_code[i]=-1;
 				error=0;
 				return Machine_code;
 			}
+			rd = result1[0];
+			rs1 = result1[1];
+			immediate = result1[2];
+			
+			
+			
 			if(immediate<-2048||immediate>2047 || rd<0 ||rd>32 || rs1<0 || rs1>32)
 			{
 				for(int i=0;i<32;i++)
