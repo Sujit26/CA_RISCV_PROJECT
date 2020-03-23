@@ -98,7 +98,7 @@ bitset <32> UJType::decode (string instruction){
 		offset *= -1;
 
 	bitset <20> imm(offset);
-	if(rdNum<0 || rdNum >32)
+	if(rdNum<0 || rdNum >31)
 			{
 				for(int i=0;i<32;i++)
 					machineCode[i]=-1;
