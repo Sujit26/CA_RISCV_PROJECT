@@ -128,7 +128,7 @@ class IType
 				error=0;
 				return Machine_code;
 			}
-			if(immediate<-2048||immediate>2047)
+			if(immediate<-2048||immediate>2047 || rd<0 ||rd>32 || rs1<0 || rs1>32)
 			{
 				for(int i=0;i<32;i++)
 					Machine_code[i]=-1;
