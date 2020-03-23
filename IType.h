@@ -128,7 +128,12 @@ class IType
 				error=0;
 				return Machine_code;
 			}
-		
+			if(immediate<-2048||immediate>2047)
+			{
+				for(int i=0;i<32;i++)
+					Machine_code[i]=-1;
+				return Machine_code;
+			}
 			for(int i=0;i<7;i++)
 				Machine_code[i] = (opcode_1[opcode_1.size()-1-i] == '0') ? 0 : 1;
 
