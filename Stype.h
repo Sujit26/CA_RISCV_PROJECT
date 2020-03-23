@@ -100,7 +100,12 @@ public:
         funct3str = funct3[index];
         bitset <12> immediate(parameters[2]); // loading offset
         bitset <5> rs1(parameters[1]),rs2(parameters[0]);
-
+        if(parameters[2]<-2048||parameters[2]>2047 || parameters[0]<0 || parameters[0]>32 || parameters[1]<0 || parameters[1]>32)
+			{
+				for(int i=0;i<32;i++)
+					Machine_code[i]=-1;
+				return Machine_code;
+			}
         for(int i=0;i<7;i++){
             if(opcodestr[opcodestr.size()-1-i] == '0')
                 MC[i] = 0;
