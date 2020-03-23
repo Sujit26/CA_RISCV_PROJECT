@@ -3,7 +3,7 @@ README
 
 CS-204 project, RISC-V SIMULATOR, GROUP1:-
 
-Ishika Soni-2017eeb1145\n
+Ishika Soni-2017eeb1145
 Harsha Garg-2017meb1008
 Vishal Lunia-2017eeb1177
 Sujit Jaiswaliya-2017csb1115
