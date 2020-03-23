@@ -83,7 +83,7 @@ public:
         stringstream ss(instruction); //helpful for tokenizing space separated strings.
         vector <int> parameters = extractint(instruction); // extracted all register names, offsets etc.
         
-        if(parameters.size()<3||error==-1)
+        if(parameters.size()!=3||error==-1)
         {
             for(int i=0;i<32;i++)
                 MC[i]=-1;
