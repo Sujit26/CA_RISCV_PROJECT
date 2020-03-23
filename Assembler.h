@@ -120,24 +120,28 @@ void  assembler_initiate(MemoryAccess &memobject)
                 if(Word == true){
                     for(int i=0; i < data.size(); i++){
                         memobject.writeWord(address,data[i]); //Word $$$$$
+                        oFile1 <<"0x"<<hex<<address<<" "<<"0x"<<hex<<data[i]<<" "<< endl;//changed
                         address += 4;
                     }
                 }
                 else if(byte == true){
                     for(int i=0; i < data.size(); i++){
                         memobject.writeByte(address,data[i]); //byte $$$$$
+                            oFile1 <<"0x"<<hex<<address<<" "<<"0x"<<hex<<data[i]<<" "<< endl;//changed
                         address += 1;
                     }
 }
                     else if(half == true){
                     for(int i=0; i < data.size(); i++){
                         memobject.writeByte(address,data[i]); //half $$$$$
+                            oFile1 <<"0x"<<hex<<address<<" "<<"0x"<<hex<<data[i]<<" "<< endl;//changed
                         address += 2;
                     }
 }
                     else if(dword == true){
                     for(int i=0; i < data.size(); i++){
                         memobject.writeByte(address,data[i]); //dword $$$$$
+                            oFile1 <<"0x"<<hex<<address<<" "<<"0x"<<hex<<data[i]<<" "<< endl;//changed
                         address += 8;
                     }
 
@@ -145,6 +149,7 @@ void  assembler_initiate(MemoryAccess &memobject)
                     for(int i=0; i < data.size(); i++){
                         // just assingning ascii value of that char, we will handle it while reading
                         memobject.writeByte(address,int(data[i])); //ascii $$$$$
+                            oFile1 <<"0x"<<hex<<address<<" "<<"0x"<<hex<<data[i]<<" "<< endl;//changed
                         address += 1;
                     }
 
@@ -219,6 +224,7 @@ void  assembler_initiate(MemoryAccess &memobject)
     }
 
     ofile.close();
+    ofile1.close();
     ifile.close();
     
 }
