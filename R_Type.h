@@ -43,7 +43,7 @@ class RType
     			index++;
     			flag=1;
     		}
-    		if(flag=1)
+    		if(flag==1)
     		{
     			final.push_back(sum);
     		}
