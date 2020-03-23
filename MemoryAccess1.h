@@ -9,7 +9,7 @@ using namespace std;
 #define BYTE 8
 #define WORD 32
 
-class  MemoryAccess1 {
+class  MemoryAccess {
 private:
 	set <int> occupiedIndex;
 	map <int , bitset <BYTE> > MEM; 
