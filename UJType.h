@@ -70,6 +70,7 @@ bitset <32> UJType::decode (string instruction){
 			error=1;
 			for(int i=0;i<32;i++)
 				machineCode[i]=-1;
+			error = 0;
 			return machineCode;	
 		}
 		i++;
