@@ -1,125 +1,158 @@
-#pragma once
-
 #include <iostream>
-#include <vector>
-#include <string>
 #include <fstream>
 #include <sstream>
 #include <bitset>
 #include <algorithm>
+#include <vector>
+#include <string>
 
 using namespace std;
 
-class RType {
-    private:
-    vector <string> instructions;    // instruction : 0->31 | opcode (7) | rd (5) | funct3 | rs1(5) | rs2 (5) | funct7 |
-    vector <string> opcode;
+class RType
+{
+	private:
+	vector <string> instructions;  
+	vector <string> opcode;
+	int error = 0;
     vector <string> funct3;
     vector <string> funct7;
 
-    /* Function extracts the all the integers in an instruction basically */
-    /* for ex : sw x2,24(x3) : will extract 2,24,3 i.e parameters needed for MC generation.*/
-    vector <int> extractint(string str) { // recieves a string and extracts all the integers and returns them in a list (vector)
-        vector <int> result;
-        int sum,currentint;
-        for(int strIndex = 0 ; strIndex < str.size() ; strIndex++) {
-            
-            sum = 0;
-            bool intfound = 0;
+     // instruction : 0->31 
+     // |opcode (7) | rd (5) | funct3 | rs1(5) | rs2 (5) | funct7 |
 
-            while(strIndex < str.size() && isdigit(str[strIndex])) {
-                currentint = str[strIndex] - '0';
-                sum = sum*10 + currentint;
-                strIndex++;
-                intfound = 1;
-            }
-            
-            if(intfound)
-                result.push_back(sum);
-        }
 
-        return result; //returning vector of extracted parameters
+    //Extraction of integers from instruction for Machine code generation
+    vector<int> intextraction(string a) 
+    {
+    	vector<int> final;//Containing all the numeric values of parameters
+    	int sum,currentint;
+    	for(int index=0 ; index < a.size() ; index++)
+    	{
+    		sum = 0;
+    		int flag =0;
+		//handling Error
+		if(index < a.size() && isdigit(a[index]))
+		{
+			if(a[index-1]!='x')
+				error = -1;	
+		}
+    		while(index < a.size() && isdigit(a[index]))
+    		{
+    			currentint =a[index] - '0';
+    			sum = sum* 10 + currentint;
+    			index++;
+    			flag=1;
+    		}
+    		if(flag==1)
+    		{
+    			final.push_back(sum);
+    		}
+    	}
+    	return final;
     }
-    
-    public:
-
-    // initialise the vectors with their respective values from the input file.
-    void initialise (string filename) {
-        ifstream ifile(filename.c_str());
-        string line;
-        
-        while(getline(ifile,line)) {
-            stringstream ss(line);
-            string token;
-            ss >> token;
-            instructions.push_back(token);
-            ss >> token;
-            opcode.push_back(token);
-            ss >> token;
-            funct3.push_back(token);
-            ss >> token;
-            funct7.push_back(token);
-        }
-    }
-    
-    // checks if given command is present in the list of S Type instructions.
-    bool isPresent(string command) {
-        stringstream ss(command);
-        string ins;
-        ss >> ins;
-        vector <string> :: iterator it = find(instructions.begin(),instructions.end(),ins);
-        if(it == instructions.end())
-        return false;
-        else
-        return true;
-    }
-	
-    
-    bitset <32> decode (string instruction) {
-		/*Edit this*/
-        bitset <32> MachineCode;
-        stringstream ss(instruction); //helpful for tokenizing space separated strings.
-        vector <int> parameters = extractint(instruction); // extracted all register names, offsets etc.
-        string action;
-        ss >> action;
-        int index = find(instructions.begin(),instructions.end(),action) - instructions.begin();
-        string opcodestr,funct3str,funct7str;
-        
-        opcodestr = opcode[index];
-        funct3str = funct3[index];
-        funct7str = funct7[index];
 
 
-        
-        //Settting up RS1 , RS2  , RD
-        bitset <5> rs2(parameters[2]),rs1(parameters[1]);
-        bitset <5> rd (parameters[0]);
-        
-        for(int i=0;i<7;i++) {
-            MachineCode[i] = (opcodestr[opcodestr.size()-1-i] == '0') ? 0 : 1; //copying opcode string to the opcode field
+	public:
+		void initialise(string parameter)
+		{
+			ifstream myfile(parameter.c_str());
+			string line;
+
+			while(getline(myfile,line))
+			{
+				stringstream ss(line);
+				string stemp;
+				ss >> stemp;
+				instructions.push_back(stemp);
+				ss >> stemp;
+				opcode.push_back(stemp);
+				ss >> stemp;
+				funct3.push_back(stemp);
+				ss >> stemp;
+				funct7.push_back(stemp);
+			}
 		}
 
-        for(int i=0;i<5;i++) {
-            MachineCode[i+7] = rd[i];
+		//Checking the list of instructions and checking whether its R type or not
+
+		bool isPresent(string line)
+		{
+			stringstream ss(line);
+			string ins;
+			ss>>ins;
+			int flag=0;
+			for(auto i=instructions.begin() ;i<instructions.end() ; i++ )
+			{
+				if(*i==ins)
+				{
+					flag=1;
+					break;
+				}
+			}
+			if(flag)
+				return true;	
+			else 
+				return false;
 		}
-        
-        for(int i = 0; i<3; i++) {
-			MachineCode[i+12] = (funct3str[funct3str.size()-i-1] == '0') ? 0 : 1;
+
+		bitset<32> decode(string instruction)
+		{
+			bitset<32> Machinecode;
+			stringstream ss(instruction);
+			string action;
+			ss >> action;
+			vector<int> parameter=intextraction(instruction);
+			if(error==-1)
+			{
+				for(int i=0;i<32;i++)
+					Machinecode[i]=-1;
+				error=0;
+				return Machinecode;
+			}
+			int index=find(instructions.begin(),instructions.end(),action)-instructions.begin();
+			string opcodestr,funct3str,funct7str;
+			opcodestr=opcode[index];
+			funct3str=funct3[index];
+			funct7str=funct7[index];
+			
+			
+			if(parameter.size()!=3 || parameter[0]<0 || parameter[0]>32 || parameter[1]<0 || parameter[1]>32 || parameter[2]<0 || parameter[2]>32  )
+			{
+				for(int i=0;i<32;i++)
+					Machinecode[i]=-1;
+				return Machinecode;
+			}
+			
+			bitset<5> rd(parameter[0]);
+			bitset<5> rs1(parameter[1]);
+			bitset<5> rs2(parameter[2]);
+			
+			for(int i=0;i<7;i++)
+			{
+				Machinecode[i] = (opcodestr[opcodestr.size()-1-i] == '0')?0:1;
+			}
+
+				for(int i=0;i<5;i++)
+			{
+				Machinecode[i+7] = rd[i];
+			}
+			for(int i=0;i<3;i++)
+			{
+				Machinecode[i+12] = (funct3str[funct3str.size()-1-i] == '0')?0:1;
+			}
+				for(int i=0;i<5;i++)
+			{
+				Machinecode[i+15] = rs1[i];
+			}
+				for(int i=0;i<5;i++)
+			{
+				Machinecode[i+20] = rs2[i];
+			}
+			for(int i=0;i<7;i++)
+			{
+				Machinecode[i+25] = (funct7str[funct7str.size()-1-i] == '0')?0:1;
+			}
+			
+			return Machinecode;
 		}
-
-        for(int i=0;i<5;i++)
-            MachineCode[i+15] = rs1[i];
-        
-        for(int i=0; i<5 ; i++)
-            MachineCode[i+20] = rs2[i];
-        
-        for(int i=0;i<7;i++)
-            MachineCode[i+25] = (funct7str[funct7str.size()-i-1] == '0') ? 0 : 1;
-
-        return MachineCode;
-
-    }
-
-
-    
 };
