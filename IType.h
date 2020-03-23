@@ -128,7 +128,7 @@ class IType
 			
 			
 			
-			if(immediate<-2048||immediate>2047 || rd<0 ||rd>32 || rs1<0 || rs1>32)
+			if(result1[2]<-2048||result1[2]>2047 || result1[0]<0 ||result1[0]>32 || result1[1]<0 || result1[1]>32)
 			{
 				for(int i=0;i<32;i++)
 					Machine_code[i]=-1;
