@@ -126,18 +126,20 @@ void  assembler_initiate(MemoryAccess &memobject)
                         memobject.writeByte(address,data[i]); //byte $$$$$
                         address += 1;
                     }
+}
                     else if(half == true){
                     for(int i=0; i < data.size(); i++){
                         memobject.writeByte(address,data[i]); //half $$$$$
                         address += 2;
                     }
+}
                     else if(dword == true){
                     for(int i=0; i < data.size(); i++){
                         memobject.writeByte(address,data[i]); //dword $$$$$
                         address += 8;
                     }
 
-                    else if(asciiz == true){
+ }                   else if(asciiz == true){
                     for(int i=0; i < data.size(); i++){
                         // just assingning ascii value of that char, we will handle it while reading
                         memobject.writeByte(address,int(data[i])); //ascii $$$$$
