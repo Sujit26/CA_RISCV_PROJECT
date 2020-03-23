@@ -55,7 +55,7 @@ int main()
 
 	ifstream iFile(inputFileName.c_str(), ios :: in);
 	ofstream oFile(outputFileName.c_str());
-	ofstream oFile1(outputFileName1.c_str());//changed
+	ofstream oFile1(outputFileName1.c_str(), ios :: app);//changed
 	ofstream oFile2(basicCodeFileName.c_str());
 
 	findLabels(inputFileName, labelNames, labelLineNumber);
