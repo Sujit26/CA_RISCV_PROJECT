@@ -101,6 +101,7 @@ int main()
 						newline.push_back(line[j]);
 					}
 					int offset = labelLineNumber[i]-lineNo-i;
+					offset *=2; //changed here
 					ostringstream numStr;
 					numStr<<offset;
 
