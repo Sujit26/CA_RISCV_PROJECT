@@ -115,15 +115,17 @@ class RType
 			funct3str=funct3[index];
 			funct7str=funct7[index];
 			
-			bitset<5> rd(parameter[0]);
-			bitset<5> rs1(parameter[1]);
-			bitset<5> rs2(parameter[2]);
+			
 			if(parameter.size()!=3 || parameter[0]<0 || parameter[0]>32 || parameter[1]<0 || parameter[1]>32 || parameter[2]<0 || parameter[2]>32  )
 			{
 				for(int i=0;i<32;i++)
 					Machinecode[i]=-1;
 				return Machinecode;
 			}
+			
+			bitset<5> rd(parameter[0]);
+			bitset<5> rs1(parameter[1]);
+			bitset<5> rs2(parameter[2]);
 			
 			for(int i=0;i<7;i++)
 			{
