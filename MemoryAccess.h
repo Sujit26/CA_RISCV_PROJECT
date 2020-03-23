@@ -4,6 +4,7 @@
 #include <map>
 #include <fstream>
 #include <sstream>
+#include "InterStateBuffers.h"
 using namespace std;
 
 /* NOTE : LSB occupies lower address */
