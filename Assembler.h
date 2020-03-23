@@ -224,7 +224,7 @@ void  assembler_initiate(MemoryAccess &memobject)
     }
 
     ofile.close();
-    ofile1.close();
+    oFile1.close();
     ifile.close();
     
 }
