@@ -116,7 +116,7 @@ class RType
 			funct7str=funct7[index];
 			
 			
-			if(parameter.size()!=3 || parameter[0]<0 || parameter[0]>32 || parameter[1]<0 || parameter[1]>32 || parameter[2]<0 || parameter[2]>32  )
+			if(parameter.size()!=3 || parameter[0]<0 || parameter[0]>31 || parameter[1]<0 || parameter[1]>31 || parameter[2]<0 || parameter[2]>31  )
 			{
 				for(int i=0;i<32;i++)
 					Machinecode[i]=-1;
