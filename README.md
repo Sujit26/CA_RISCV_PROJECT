@@ -13,8 +13,13 @@ Language:- C++
 
 
 HOW TO RUN:-
-        On the terminal :-
         
+        On the terminal :-
+         g++ -o executable main.cpp
+        ./executable
+        
+        On the GUI:-
+            Editor pane is working.And Machine Code, Basic Code and Original Code is being displayed
 
 Phase 1:-
 Parsed the input file
@@ -25,13 +30,14 @@ Parsed the input file
                 
 Error(s) Handled in the instruction:
 - If "lw x10 x20" was given and no offset/immediate field, Our Assembler pointed out
-- Say, "addi x10, x20, x30" was given. It should be pointed out.
-- Say, "jalr x1, loc1" was given but loc1 was not defined, it should be pointed out.
-- The immediate/offset value given in the instruction is beyond the limit, it should be pointed out.
+- If, "addi x10, x20, x30" was given. It is pointed out.
+- If, "jalr x1, loc1" was given but loc1 was not defined, it is pointed out.
+- The immediate/offset value given in the instruction is beyond the limit, it is pointed out.
+- x33 and x-1 is an invalid instruction as we have registers from 0 to 31 and this is pointed out
+-If any number of parameters are given less in the instruction then it is pointed out
 
-All others, errors should be pointed to the user. Until all the errors are cleared, complete machine code will not be available.
-f your assembler accepts instructions without special characters like comma, bracket, etc., you need to clearly mention that in the "README" file for the user to know.
+If all the errors are not cleared, Error message will be written on the terminal and complete machine code will not be available.
+Our assembler accepts instructions without bracket for offset 
 
 Ex: lw x10, 10(x20) can be accepted as lw x10 x20 10 by your assembler.
                 
-Our assembler accepts instructions without special characters like bracket, etc.
