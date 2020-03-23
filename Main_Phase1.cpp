@@ -81,7 +81,7 @@ int main()
 			//replacing sp with x2
 			for(int i=1;i<line.size()-2;i++)
 			{
-				if(line[i]=='s'&& line[i+1]=='p' && (line[i-1]==' '|| line[i-1]==',' || line[i-1]=='(')&&line[i+2]==' '||line[i+2]==','||line[i+2]==')'||line[i+2]=='\n')
+				if(line[i]=='s'&& line[i+1]=='p' && (line[i-1]==' '|| line[i-1]==',' || line[i-1]=='(')&& (line[i+2]==' '||line[i+2]==','||line[i+2]==')'||line[i+2]=='\n'))
 				{
 					line[i]='x';
 					line[i+1]='2';
