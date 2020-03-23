@@ -11,7 +11,7 @@
 #include "UType.h"
 #include "bintohex.h"//changed
 #include "Assembler.h"
-#include "MemoryAccess1.h"
+#include "MemoryAccess.h"
 using namespace std;
 
 void findLabels(string, vector<string>& , vector<int>&);
@@ -49,7 +49,7 @@ int main()
 	ujTypeInsObj.initialise(dir + "UJType.txt");
 	uTypeInsObj.initialise(dir + "UType.txt");
 	
-	MemoryAccess1 memAccess;
+	MemoryAccess memAccess;
 
 	assembler_initiate(memAccess);
 
