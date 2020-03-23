@@ -3,7 +3,7 @@ README
 
 CS-204 project, RISC-V SIMULATOR, GROUP1:-
 
-Ishika Soni-2017eeb1145
+Ishika Soni-2017eeb1145\n
 Harsha Garg-2017meb1008
 Vishal Lunia-2017eeb1177
 Sujit Jaiswaliya-2017csb1115
@@ -15,8 +15,8 @@ Language:- C++
 HOW TO RUN:-
         
         On the terminal :-
-         g++ -o executable main.cpp
-        ./executable
+         g++ Main_Phase1.cpp
+        ./a.out
         
         On the GUI:-
             Editor pane is working.And Machine Code, Basic Code and Original Code is being displayed
