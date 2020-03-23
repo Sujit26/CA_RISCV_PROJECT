@@ -1,7 +1,7 @@
 #pragma once 
 #include <bitset>
-#include <map>
 #include <set>
+#include <map>
 #include <fstream>
 #include <sstream>
 using namespace std;
@@ -46,7 +46,21 @@ private:
 	
 public:
 
-	
+	void writeWord(InterStateBuffers &isb) { // WRITES RM value to RZ index
+
+		bitset <8> byte1,byte2,byte3,byte4;
+		bitset <32> source = isb.RM.readBitset();
+		int index = isb.RZ.readInt();  
+		divide(source,byte1, byte2, byte3 , byte4); // byte1 lsb
+		occupiedIndex.insert(index);
+
+		// Write to its position
+		MEM [index + 0] = byte4;
+		MEM [index + 1] = byte3;
+		MEM [index + 2] = byte2;
+		MEM [index + 3] = byte1;
+		
+	}
 
 		void writeWord(int address, int data ) { // Writes Data at Index, Basically Memory[index] = data( in bytes)
 		
@@ -67,7 +81,21 @@ public:
 	}
 
 
-	
+	void readWord (InterStateBuffers & isb ) {  //INDEX at RZ , WRITE to isb.mem_register
+		bitset <BYTE> byte1, byte2, byte3, byte4; 	
+		bitset <WORD> output;
+		int index = isb.RZ.readInt();
+
+		byte4 = MEM [index + 0];
+		byte3 = MEM [index + 1];
+		byte2 = MEM [index + 2];
+		byte1 = MEM [index + 3];
+
+		unite (output, byte1, byte2, byte3, byte4);
+
+		isb.mem_register = bitsetRead(output);
+	}
+
 	int readWord(int address){
 		bitset <BYTE> byte1, byte2, byte3, byte4; 	
 		bitset <WORD> output;
@@ -98,7 +126,20 @@ public:
 		return output.to_ulong();
 	}
 
-	
+	void writeByte ( InterStateBuffers & isb ) { // WRITES RM value to RZ index
+		bitset <BYTE> byte;
+		bitset <WORD> source;
+		
+		source = isb.RZ.readBitset();
+		int index = isb.RZ.readInt();
+
+		for (int i = 0; i<8; i++) {
+			byte[i] = source[i];
+		}
+
+		MEM[index] = byte;
+	}
+
 	void writeByte ( int address , int data ) { // WRITES RM value to RZ index
 		bitset <BYTE> byte;
 		bitset <WORD> source;
@@ -113,7 +154,18 @@ public:
 		MEM[index] = byte;
 	}
 
-	
+	void readByte (InterStateBuffers & isb ) {
+		bitset <WORD> output;
+		bitset <BYTE> byte; 
+		
+		int index = isb.RZ.readInt();
+		byte = MEM[index];
+
+		for (int i = 0;i<8;i++) {
+			output[i] = byte[i];
+		}
+		isb.mem_register = bitsetRead(output);
+	}
 	void dump () {
 		for (auto elem : occupiedIndex ) {
 			readWord (elem);
@@ -128,3 +180,4 @@ public:
 		}
 	}
 }; 
+
