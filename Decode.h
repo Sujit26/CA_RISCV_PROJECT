@@ -1,8 +1,12 @@
 #pragma once
-#include <bits/stdc++.h>
+#include<iostream>
+#include<fstream>
+#include <sstream>
+#include<string.h>
+#include<bitset>
 #include "RegistryFile.h"
 #include "InterStateBuffers.h"
-#include "RegistryFile.h"
+
 
 using namespace std;
 
