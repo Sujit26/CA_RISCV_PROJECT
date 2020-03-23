@@ -100,7 +100,7 @@ bitset <32> UType::decode (string instruction){
 		for(i=0;i<immStr.size();i++)
 			immValue = immValue*10 + (immStr[i] - '0');
 	}
-	if(immValue<0 && immValue>1048575){
+	if(immValue<0 || immValue>1048575){
 		for(int i=0;i<32;i++)
 				machineCode[i]=-1;
 			return machineCode;
