@@ -122,18 +122,19 @@ class IType
 				error=0;
 				return Machine_code;
 			}
+			if(result1[2]<-2048||result1[2]>2047 || result1[0]<0 ||result1[0]>31 || result1[1]<0 || result1[1]>31)
+			{
+				for(int i=0;i<32;i++)
+					Machine_code[i]=-1;
+				return Machine_code;
+			}
 			rd = result1[0];
 			rs1 = result1[1];
 			immediate = result1[2];
 			
 			
 			
-			if(result1[2]<-2048||result1[2]>2047 || result1[0]<0 ||result1[0]>32 || result1[1]<0 || result1[1]>32)
-			{
-				for(int i=0;i<32;i++)
-					Machine_code[i]=-1;
-				return Machine_code;
-			}
+			
 			for(int i=0;i<7;i++)
 				Machine_code[i] = (opcode_1[opcode_1.size()-1-i] == '0') ? 0 : 1;
 
