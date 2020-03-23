@@ -1,11 +1,16 @@
-.data
-var1: .word 12 10 13 7 4 22 19 11 23 8
-
-.text
-la x3, var1
-addi x4, x0,9
-addi x5,x0,11
-addi x6,x0,0
-addi x7,x4,0
-beq x0,x0,Exit
-Exit:
+addi x2,x0,1
+addi x3,x0,0
+add x1,x2,x3
+andi x4,x1,9
+and x10, x1,x2
+or x11,x1,x2
+ori x12,x1,9
+sll x13,x1,x2
+slt x14,x1,x2
+sra x15,x1,x2
+srl x15,x1,x2
+sub x16,x1,x2
+xor x17,x1,x2
+mul x18,x1,x2
+div x19,x1,x2
+rem x20,x1,x2
