@@ -1,5 +1,4 @@
 .data
-str: .asciiz "acbca"
 n: .word 0
 
 .text
@@ -11,17 +10,4 @@ addi x6 x6 -2
 addi x7 x7 -1	
 srli x7 x7 1	
 addi x8 x0 1	
-
-loop:
-	beq x7 x0 exit
-    lb x10 0(x5)
-    lb x11 0(x6)
-    beq x10 x11 else
-    	add x8 x0 x0
-    	jal x0 exit
-    else:
-    addi x5 x5 1
-    addi x6 x6 -1
-    addi x7 x7 -1
-    jal x0 loop
 exit:
