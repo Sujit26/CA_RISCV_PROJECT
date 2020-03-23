@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include "InterStateBuffers.h"
+#include "Functions.h"
 using namespace std;
 
 /* NOTE : LSB occupies lower address */
