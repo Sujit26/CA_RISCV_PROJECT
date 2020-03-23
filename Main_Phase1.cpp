@@ -10,6 +10,7 @@
 #include "UJType.h"
 #include "UType.h"
 #include "bintohex.h"//changed
+#include "Assembler.h"
 using namespace std;
 
 void findLabels(string, vector<string>& , vector<int>&);
