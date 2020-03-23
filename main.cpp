@@ -20,6 +20,7 @@
 #include"InterStateBuffers.h"
 #include"Assembler.h"
 #include"CacheMemory.h"
+#include "bintohex.h"//changed
 
 using namespace std;
 
@@ -46,8 +47,10 @@ int main(){
 	vector<int> labelLineNumber;
 
 	int insType;
+
 	string inputFileName = "input1.txt";
 	string outputFileName = "machineCode.txt";
+	string outputFileName1 = "machineCode1.txt";//changed
 	string basicCodeFileName = "basicCode.txt";
 
 	// Directory path to source instruction text files
@@ -56,7 +59,7 @@ int main(){
 	rTypeInsObj.initialise(dir + "RType.txt");
 	iTypeInsObj.initialise(dir + "IType.txt");
 	sbTypeInsObj.initialise(dir + "SBType.txt");
-  sTypeInsObj.initialise(dir + "SType.txt");
+  	sTypeInsObj.initialise(dir + "SType.txt");
 	ujTypeInsObj.initialise(dir + "UJType.txt");
 	uTypeInsObj.initialise(dir + "UType.txt");
 
