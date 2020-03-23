@@ -31,11 +31,14 @@ class RType
     		sum = 0;
     		int flag =0;
 		//handling Error
+		if(index < a.size() && isdigit(a[index]))
+		{
+			if(a[index-1]!='x')
+				error = -1;	
+		}
     		while(index < a.size() && isdigit(a[index]))
     		{
     			currentint =a[index] - '0';
-			if(a[index-1]!='x')
-				error = -1;
     			sum = sum* 10 + currentint;
     			index++;
     			flag=1;
