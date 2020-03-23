@@ -103,8 +103,8 @@ public:
         if(parameters[2]<-2048||parameters[2]>2047 || parameters[0]<0 || parameters[0]>32 || parameters[1]<0 || parameters[1]>32)
 			{
 				for(int i=0;i<32;i++)
-					Machine_code[i]=-1;
-				return Machine_code;
+					MC[i]=-1;
+				return MC;
 			}
         for(int i=0;i<7;i++){
             if(opcodestr[opcodestr.size()-1-i] == '0')
