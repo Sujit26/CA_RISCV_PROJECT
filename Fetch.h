@@ -200,9 +200,6 @@ void bufStats (InterStateBuffers & buf) {
 			updateBuffer(buf);	
 		}
 		ifstream pFile (HMEM_SRC);
-		string print_file_name = "printsummary.txt";
-		ofstream oFile(print_file_name.c_str());
-		
 		string line;
 		int pp=0;
 		while(getline (pFile , line ) ){
@@ -211,9 +208,8 @@ void bufStats (InterStateBuffers & buf) {
 				string pcNo, hexmc;
 				stringstream ss (line);
 				ss >>pcNo>> hexmc;
-				oFile<<"Fetch Instruction "<<hexmc<<" from address "<<pcNo<<endl;
+				cout<<"Fetch Instruction "<<hexmc<<" from address "<<pcNo;
 				pFile.close();
-				oFile.close();
 				break;
 			}
 			else
