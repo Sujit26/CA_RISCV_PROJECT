@@ -200,6 +200,9 @@ void bufStats (InterStateBuffers & buf) {
 			updateBuffer(buf);	
 		}
 		ifstream pFile (HMEM_SRC);
+		string print_file_name = "printsummary.txt";
+		ofstream oFile(outputFileName1.c_str());
+		
 		string line;
 		getline (pFile , line );
 		int pp=1;
@@ -209,6 +212,8 @@ void bufStats (InterStateBuffers & buf) {
 				string pcNo, hexmc;
 				stringstream ss (line);
 				ss >>pcNo>> hexmc;
+				ofile<<"Fetch Instruction "<<hexmc<<" from address "<<pcNo<<endl;
+				ofline.close();
 				
 			}
 			else
