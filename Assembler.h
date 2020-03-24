@@ -212,7 +212,6 @@ void  assembler_initiate(MemoryAccess &memobject)
                     }
                     //changed    
                     continue;
-                }
                 
             }
            
