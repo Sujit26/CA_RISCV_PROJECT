@@ -50,12 +50,12 @@ Address of text segment : 0x00
 Address of data segment : 0x10000000
 
 Contribution:
-        R_Type : Vishal
-        IType and Main_Phase1 : Ishika
-        UType and UJType: Harsha
-        SType and SBType: Sujit
-        MemoryAcess and bintohex: Laksya
-        Error Handling in Instructions : Harsha and Ishika
-        Complete debugging and Running of Phase1 : Harsha and Ishika
+- R_Type : Vishal
+- IType and Main_Phase1 : Ishika
+- UType and UJType: Harsha.
+- SType and SBType: Sujit.
+- MemoryAcess and bintohex: Laksya
+- Complete debugging and Running of Phase1 : Harsha and Ishika
+-Error Handling in Instructions : Harsha and Ishika
 
 Test Program:Factorial 
