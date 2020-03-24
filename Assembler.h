@@ -189,7 +189,7 @@ void  assembler_initiate(MemoryAccess &memobject)
             
             if( (insname == "la" || insname == "lw" || insname == "lb") && label[label.size()-1] != ')' )
             {
-                if(!isdigit(label[0]))
+                if(!isdigit(label[label.size()-1]))
                 {
                     //ofile<<"addi "<<regname<<",x0,"<<labelLookup[label]<<endl;
                     //changed
