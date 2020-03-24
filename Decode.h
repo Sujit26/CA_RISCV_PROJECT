@@ -145,6 +145,23 @@ class Decode{
             for(int i=0; i<12; i++){
                 imm1[i] = IR[20+i];
             }
+		
+		ifstream inpFile ("./instructions/IType.txt");
+		string line;
+		while(getline (inpFile , line ) ){
+			string fname,fopcode, fthree;
+			stringstream ss (line);
+			ss >> fname >> fopcode >> fthree;
+			if(fopcode==opcode.to_string())
+			{
+				if(fthree==func3.to_string())
+				{
+						cout<<"Operation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", immediate value is "<<imm1.to_ulong()<<", destination register x"<< rd.to_ulong();
+						break;	
+				}
+			}
+		}
+		inpFile.close();
             hasFunc7 = false;
 						hasFunc3 = true;
 
@@ -173,6 +190,24 @@ class Decode{
                 imm1[i+4] = IR[25+i];
             }
             imm1[11] = IR[31];
+		
+		ifstream inpFile ("./instructions/SBType.txt");
+		string line;
+		while(getline (inpFile , line ) ){
+			string fname,fopcode, fthree;
+			stringstream ss (line);
+			ss >> fname >> fopcode >> fthree;
+			if(fopcode==opcode.to_string())
+			{
+				if(fthree==func3.to_string())
+				{
+						cout<<"Operation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", second operand x"<<rs2.to_ulong()<<", immediate value "<< imm1.to_ulong();
+						break;	
+				}
+			}
+		}
+		inpFile.close();
+		
             hasFunc7 = false;
 			hasFunc3 = true;
 	
@@ -199,6 +234,22 @@ class Decode{
             for(int i=0; i<7; i++){
                 imm1[i+5] = IR[25+i];
             }
+		ifstream inpFile ("./instructions/SType.txt");
+		string line;
+		while(getline (inpFile , line ) ){
+			string fname,fopcode, fthree;
+			stringstream ss (line);
+			ss >> fname >> fopcode >> fthree;
+			if(fopcode==opcode.to_string())
+			{
+				if(fthree==func3.to_string())
+				{
+						cout<<"Operation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", immediate value "<<imm1.to_ulong()<<", destination register x"<< rd.to_ulong();
+						break;	
+				}
+			}
+		}
+		inpFile.close();
             hasFunc7 = false;
 						hasFunc3 = true;
 
@@ -220,6 +271,21 @@ class Decode{
                 imm2[i] = IR[21+i];
             }
             imm2[19] = IR[31];
+		
+		ifstream inpFile ("./instructions/UJType.txt");
+		string line;
+		while(getline (inpFile , line ) ){
+			string fname,fopcode;
+			stringstream ss (line);
+			ss >> fname >> fopcode;
+			if(fopcode==opcode.to_string())
+			{
+						cout<<"Operation is "<<fname<<", "<<"destination register x"<< rd.to_ulong()<<", immediate value "<<imm2.to_ulong();
+						break;	
+			}
+		}
+		inpFile.close();
+		
             hasFunc7 = false;
             hasFunc3 = false;
 
@@ -236,6 +302,21 @@ class Decode{
             for(int i=0;i<20;i++){
                 imm2[i] = IR[12+i];
             }
+		
+		ifstream inpFile ("./instructions/UType.txt");
+		string line;
+		while(getline (inpFile , line ) ){
+			string fname,fopcode;
+			stringstream ss (line);
+			ss >> fname >> fopcode;
+			if(fopcode==opcode.to_string())
+			{
+						cout<<"Operation is "<<fname<<", "<<"destination register x"<< rd.to_ulong()<<", immediate value "<<imm2.to_ulong();
+						break;	
+			}
+		}
+		inpFile.close();
+		
             hasFunc7 = false;
             hasFunc3 = false;
 
