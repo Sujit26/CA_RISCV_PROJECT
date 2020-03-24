@@ -201,7 +201,7 @@ void bufStats (InterStateBuffers & buf) {
 		}
 		ifstream pFile (HMEM_SRC);
 		string print_file_name = "printsummary.txt";
-		ofstream oFile(outputFileName1.c_str());
+		ofstream oFile(print_file_name.c_str());
 		
 		string line;
 		getline (pFile , line );
