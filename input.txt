@@ -1,71 +1,24 @@
 .data
-var1: .word 12 10 13 7 4 22 19 11 23 8
-
+n : .word 9
 .text
-la x3, var1
-addi x4, x0,9
-jal x1,B_Sort
-addi x5,x0,11
-addi x6,x0,0
-addi x7,x4,0
-jal x1,B_Search
-beq x0,x0,Exit
-
-
-B_Search:
-    blt x7,x6,returnNotFound
-    add x8,x6,x7
-    srli x8,x8,1
-    slli x9,x8,2
-    add x9,x9,x3
-    lw x9,x9,0
-    beq x5,x9,returnFound
-    
-    addi sp,sp,-12
-    sw x1,sp,8
-    sw x6,sp,4
-    sw x7,sp,0
-    
-    blt x5,x9,SearchLeft
-    addi x6,x8,1
-    SearchLeft:
-    addi x7,x8,-1
-    jal x1,B_Search
-    
-    lw x7,sp,0
-    lw x6,sp,4
-    lw x1,sp,8
-    addi sp,sp,12
-    
+main:
+	lw x10,n
+    jal x1,fact
+    beqz x0,Exit
+fact:
+	addi sp,sp,-8
+    sw x1,4(sp)
+    sw x10,0(sp)
+    li x5,1
+    bne x10,x5,Else
+    addi sp,sp,8
     jalr x0,x1,0
-    
-    returnFound:
-    add x12,x0,x8
-    jalr x0,x1,0
-    
-    returnNotFound:
-    addi x12,x0,-1
-    jalr x0,x1,0
-B_Sort:
-    addi x5,x0,0
-    outerloop:
-        beq x5,x4,exit1
-        addi x6,x0,0
-        addi x7,x3,0
-        innerloop:
-            beq x6,x4,exit2
-            lw x8,x7,0
-            lw x9,x7,4
-            bge x9,x8,continue
-            sw x9,x7,0
-            sw x8,x7,4
-            continue:
-            addi x7,x7,4
-            addi x6,x6,1
-            beq x0,x0,innerloop
-        exit2:
-        addi x5,x5,1
-        beq x0,x0,outerloop
-    exit1:
-    jalr x0,x1,0
+    Else:
+    	addi x10,x10,-1
+        jal x1,fact
+        lw x11,0(sp)
+        mul x10,x10,x11
+        lw x1,4(sp)
+        addi sp,sp,8
+        jalr x0,x1,0
 Exit:
