@@ -104,28 +104,23 @@ class Decode{
                 func7[i] = IR[25+i];
             }
 					
-		ifstream inpFile ("./instruction/RType.txt");
+		ifstream inpFile ("./instructions/RType.txt");
 		string line;
-		int temp = 0;
 		while(getline (inpFile , line ) ){
 			string fname,fopcode, fthree,fseven;
 			stringstream ss (line);
-			ss >> fname >> fopcode >> fthree>>fseven;
+			ss >> fname >> fopcode >> fthree >> fseven;
 			if(fopcode==opcode.to_string())
 			{
 				if(fthree==func3.to_string())
 				{
 					if(fseven==func7.to_string())
 					{
-						temp=1;
+						cout<<"Operation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", second operand x"<<rs2.to_ulong()<<", destination register x"<< rd.to_ulong();
 						break;
 					}
 				}
 			}
-		}
-		if(temp)
-		{
-			cout<<"Operation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", second operand x"<<rs2.to_ulong()<<", destination register x"<< rd.to_ulong();
 		}
 		inpFile.close();
 			hasFunc3 = true;
