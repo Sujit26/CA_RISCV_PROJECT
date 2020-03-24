@@ -204,7 +204,7 @@ void bufStats (InterStateBuffers & buf) {
 		ofstream oFile(print_file_name.c_str());
 		
 		string line;
-		int pp=1;
+		int pp=0;
 		while(getline (pFile , line ) ){
 			if(pp==i)
 			{
