@@ -202,7 +202,17 @@ void bufStats (InterStateBuffers & buf) {
 		ifstream pFile (HMEM_SRC);
 		string line;
 		getline (pFile , line );
-		
+		int pp=1;
+		while(getline (pFile , line ) ){
+			if(pp==i)
+			{
+				string pcNo, hexmc;
+				stringstream ss (line);
+				ss >>pcNo>> hexmc;
+				
+			}
+			else
+				pp++;
 	}
 
 };
