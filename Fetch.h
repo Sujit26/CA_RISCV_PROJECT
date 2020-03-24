@@ -188,7 +188,7 @@ void bufStats (InterStateBuffers & buf) {
 	}
 
 
-	void get(InterStateBuffers & buf, Registry_File regs) {
+	void get(InterStateBuffers & buf, Registry_File regs, int i) {
 		buf.IR.writeBitset ( mem_map[buf.PC]);
 		buf.insType = itype_map[ buf.PC ]; // Instype and new intructions fetch completed
 		updateStats(buf.PC);
@@ -199,6 +199,10 @@ void bufStats (InterStateBuffers & buf) {
 			setBrachAddress(buf, regs);
 			updateBuffer(buf);	
 		}
+		ifstream pFile (HMEM_SRC);
+		string line;
+		getline (pFile , line );
+		
 	}
 
 };
