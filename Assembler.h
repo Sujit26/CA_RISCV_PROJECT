@@ -49,6 +49,7 @@ void  assembler_initiate(MemoryAccess &memobject)
     bool starttext = 0;
     bool labeldef = 0 ;
     int address =  0;
+    int loadaddress = 0;
     
 
     while(getline(ifile,current))
@@ -190,9 +191,30 @@ void  assembler_initiate(MemoryAccess &memobject)
             {
                 if(!isdigit(label[0]))
                 {
-                    ofile<<"addi "<<regname<<",x0,"<<labelLookup[label]<<endl;
+                    //ofile<<"addi "<<regname<<",x0,"<<labelLookup[label]<<endl;
+                    //changed
+                    if(insname=="lw")
+                    {
+                            ofile<<"auipc"<<regname<<",65536,"<<endl;
+                            ofile<<"lw"<<regname<<",x0,"<<loadaddress<<endl;
+                            loadaddress = loadaddress-8;
+                    }
+                    else if(insname=="lb")
+                    {
+                            ofile<<"auipc"<<regname<<",65536,"<<endl;
+                            ofile<<"lb"<<regname<<",x0,"<<loadaddress<<endl;
+                            loadaddress = loadaddress-8;
+                    }
+                    else if(insname=="lh")
+                    {
+                            ofile<<"auipc"<<regname<<",65536,"<<endl;
+                            ofile<<"lb"<<regname<<",x0,"<<loadaddress<<endl;
+                            loadaddress = loadaddress-8;
+                    }
+                    //changed    
                     continue;
-                }  
+                }
+                
             }
            
             else
