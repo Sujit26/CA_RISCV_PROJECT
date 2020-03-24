@@ -125,7 +125,7 @@ class Decode{
 		}
 		if(temp)
 		{
-			cout<<"Operation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", second operand x"<<rs2.to_ulong()<<", destination register x"<< rs2.to_ulong();
+			cout<<"Operation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", second operand x"<<rs2.to_ulong()<<", destination register x"<< rd.to_ulong();
 		}
 		inpFile.close();
 			hasFunc3 = true;
