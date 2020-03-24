@@ -212,7 +212,7 @@ void bufStats (InterStateBuffers & buf) {
 				string pcNo, hexmc;
 				stringstream ss (line);
 				ss >>pcNo>> hexmc;
-				ofile<<"Fetch Instruction "<<hexmc<<" from address "<<pcNo<<endl;
+				oFile<<"Fetch Instruction "<<hexmc<<" from address "<<pcNo<<endl;
 				oFile.close();
 				
 			}
