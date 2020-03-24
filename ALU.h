@@ -58,12 +58,12 @@ class ALU {
 		}
 		else if(ins == "or"){
 			result = RA | RB;
-			cout <<"\t\t"<<result <<"="<< RA <<" or "<< RB<<endl;
+			cout <<"\t\t"<<result <<"="<< RA <<" | "<< RB<<endl;
 			object.RZ.writeInt(result);
 		}
 		else if(ins == "xor"){
 			result = RA ^ RB;
-			cout <<"\t\t"<<result <<"="<< RA <<" xor "<< RB<<endl;
+			cout <<"\t\t"<<result <<"="<< RA <<" ^ "<< RB<<endl;
 			object.RZ.writeInt(result);
 		}
 		else if(ins == "sll"){
