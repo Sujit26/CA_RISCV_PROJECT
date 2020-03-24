@@ -54,6 +54,5 @@ Contribution:
 - IType and Main_Phase1 : Ishika
 - UType and UJType: Harsha.
 - SType and SBType: Sujit.
-- Error Handling in Instructions : Harsha and Ishika
 - MemoryAcess and bintohex: Laksya
-- Complete debugging and Running of Phase1 : Harsha and Ishika
+- Error Handling in Instructions , Complete debugging of Phase1 and Running of Phase1 : Harsha and Ishika
