@@ -58,12 +58,12 @@ class ALU {
 		}
 		else if(ins == "or"){
 			result = RA | RB;
-			cout <<"\t\t"<<result <<"="<< RA <<" | "<< RB<<endl;
+			cout <<"\t\t"<<result <<"="<< RA <<" or "<< RB<<endl;
 			object.RZ.writeInt(result);
 		}
 		else if(ins == "xor"){
 			result = RA ^ RB;
-			cout <<"\t\t"<<result <<"="<< RA <<" ^ "<< RB<<endl;
+			cout <<"\t\t"<<result <<"="<< RA <<" xor "<< RB<<endl;
 			object.RZ.writeInt(result);
 		}
 		else if(ins == "sll"){
@@ -76,21 +76,40 @@ class ALU {
 			cout <<"\t\t"<<result <<"="<< RA <<" >> "<< RB<<endl;
 			object.RZ.writeInt(result);
 		}
-		
+
 		else if(ins == "blt"){
 			state = (RA < RB) ? 1 : 0;
+			cout<<"\t\t"<<state<<" = "<<RA<< " < "<<RB<<endl;
+		}
+		else if(ins == "ble"){
+			state = (RA <= RB) ? 1 : 0;
+			cout<<"\t\t"<<state<<" = "<<RA<< " <= "<<RB<<endl;
 		}
 		else if(ins == "bgt"){
 			state = (RA > RB) ? 1 : 0;
+			cout<<"\t\t"<<state<<" = "<<RA<< " > "<<RB<<endl;
 		}
 		else if(ins == "bge"){
 			state = (RA >= RB) ? 1 : 0;
+			cout<<"\t\t"<<state<<" = "<<RA<< " >= "<<RB<<endl;
+		}
+		else if(ins == "bltu"){
+			cout<<"\t\t"<<state<<" = "<<RA<< " < "<<RB<<endl;
+			state = (RAU < RBU) ? 1 : 0;
 		}
 		else if(ins == "beq"){
+			
 			state = RA == RB ? 1 : 0;
+			cout<<"\t\t"<<state<<" = "<<RA<< " = "<<RB<<endl;
 		}
 	    	else if(ins == "bne"){
+				
 			state = RA != RB ? 1 : 0;
+			cout<<"\t\t"<<state<<" = "<<RA<< " != "<<RB<<endl;
+		}
+		else if(ins == "bgtu"){
+			state = (RAU > RBU) ? 1 : 0;
+			cout<<"\t\t"<<state<<" = "<<RA<< " > "<<RB<<endl;
 		}
 		else if (ins == "sra"){ //arithmetic shift
 			int shift = RB;
@@ -102,6 +121,7 @@ class ALU {
 			{
 				finalresult[index] = MSB;
 			}
+			cout<<"operation:->sra, Value = "<<finalresult.to_ulong()<<endl;
 			object.RZ.writeInt(finalresult.to_ulong());
 		}
 		else{
