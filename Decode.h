@@ -104,25 +104,30 @@ class Decode{
                 func7[i] = IR[25+i];
             }
 					
-		ifstream inpFile ("./instructions/RType.txt");
-		string line;
-		while(getline (inpFile , line ) ){
-			string fname,fopcode, fthree,fseven;
-			stringstream ss (line);
-			ss >> fname >> fopcode >> fthree >> fseven;
-			if(fopcode==opcode.to_string())
-			{
-				if(fthree==func3.to_string())
-				{
-					if(fseven==func7.to_string())
-					{
-						cout<<"Operation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", second operand x"<<rs2.to_ulong()<<", destination register x"<< rd.to_ulong();
-						break;
-					}
-				}
-			}
-		}
-		inpFile.close();
+            ifstream inpFile ("./instructions/RType.txt");
+            string line;
+            while(getline (inpFile , line ) ){
+                string fname,fopcode, fthree,fseven;
+                stringstream ss (line);
+                ss >> fname >> fopcode >> fthree >> fseven;
+                if(fopcode==opcode.to_string())
+                {
+                    if(fthree==func3.to_string())
+                    {
+                        if(fseven==func7.to_string())
+                        {
+                            cout<<"\t\tOperation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", second operand x"<<rs2.to_ulong()<<", destination register x"<< rd.to_ulong();
+                            Registry_File reg;
+                            cout<<"\n\t\tvalue of x"<< rs1.to_ulong()<<": "<<bitsetRead(reg.registers[rs1.to_ulong()])<<endl;
+                            cout<<"\t\tvalue of x"<< rs2.to_ulong()<<": "<<bitsetRead(reg.registers[rs2.to_ulong()])<<endl;
+                            cout<<"\t\tvalue of rd"<<": "<<bitsetRead(reg.registers[rd.to_ulong()])<<endl;
+                            break;
+                        }
+                    }
+                }
+                
+            }
+            inpFile.close();
 			hasFunc3 = true;
     		hasFunc7 = true;
 
@@ -146,9 +151,9 @@ class Decode{
                 imm1[i] = IR[20+i];
             }
 		
-		ifstream inpFile ("./instructions/IType.txt");
-		string line;
-		while(getline (inpFile , line ) ){
+            ifstream inpFile ("./instructions/IType.txt");
+            string line;
+            while(getline (inpFile , line ) ){
 			string fname,fopcode, fthree;
 			stringstream ss (line);
 			ss >> fname >> fopcode >> fthree;
@@ -156,16 +161,21 @@ class Decode{
 			{
 				if(fthree==func3.to_string())
 				{
-						cout<<"Operation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", immediate value is "<<imm1.to_ulong()<<", destination register x"<< rd.to_ulong();
+						cout<<"\t\tOperation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", immediate value is "<<imm1.to_ulong()<<", destination register x"<< rd.to_ulong();
+                        Registry_File reg;
+                            cout<<"\n\t\tvalue of x"<< rs1.to_ulong()<<": "<<bitsetRead(reg.registers[rs1.to_ulong()])<<endl;
+                            cout<<"\t\tvalue of imm"<< ": "<<imm1.to_ulong()<<endl;
+                            cout<<"\t\tvalue of rd"<<": "<<bitsetRead(reg.registers[rd.to_ulong()])<<endl;
+                            
 						break;	
 				}
 			}
-		}
-		inpFile.close();
-            hasFunc7 = false;
-						hasFunc3 = true;
+		    }
+            inpFile.close();
+                hasFunc7 = false;
+                            hasFunc3 = true;
 
-            ibs.write_back_location = rd.to_ulong();
+                ibs.write_back_location = rd.to_ulong();
         }
         if(insType == 3){
             // SBType imm[12] | imm [10:5] | rs2 | rs1 | funct3 | imm[4:1] | imm[11] | opcode
@@ -191,27 +201,32 @@ class Decode{
             }
             imm1[11] = IR[31];
 		
-		ifstream inpFile ("./instructions/SBType.txt");
-		string line;
-		while(getline (inpFile , line ) ){
-			string fname,fopcode, fthree;
-			stringstream ss (line);
-			ss >> fname >> fopcode >> fthree;
-			if(fopcode==opcode.to_string())
-			{
-				if(fthree==func3.to_string())
-				{
-						cout<<"Operation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", second operand x"<<rs2.to_ulong()<<", immediate value "<< imm1.to_ulong();
-						break;	
-				}
-			}
-		}
-		inpFile.close();
-		
-            hasFunc7 = false;
-			hasFunc3 = true;
-	
-            ibs.write_back_location = -1;
+            ifstream inpFile ("./instructions/SBType.txt");
+            string line;
+            while(getline (inpFile , line ) ){
+                string fname,fopcode, fthree;
+                stringstream ss (line);
+                ss >> fname >> fopcode >> fthree;
+                if(fopcode==opcode.to_string())
+                {
+                    if(fthree==func3.to_string())
+                    {
+                            cout<<"\t\tOperation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", second operand x"<<rs2.to_ulong()<<", immediate value "<< imm1.to_ulong();
+                            Registry_File reg;
+                            cout<<"\n\t\tvalue of x"<< rs1.to_ulong()<<": "<<bitsetRead(reg.registers[rs1.to_ulong()])<<endl;
+                            cout<<"\t\tvalue of x"<< rs2.to_ulong()<<": "<<bitsetRead(reg.registers[rs2.to_ulong()])<<endl;
+                            cout<<"\t\tvalue of imm"<<": "<<imm1.to_ulong()<<endl;
+                            
+                            break;	
+                    }
+                }
+            }
+            inpFile.close();
+            
+                hasFunc7 = false;
+                hasFunc3 = true;
+        
+                ibs.write_back_location = -1;
         }
         if(insType == 4){
             // SType immediate (7) | rs2 (5) | rs1 (5) | func3 | immediate (5) | opcode (7) |
@@ -234,26 +249,30 @@ class Decode{
             for(int i=0; i<7; i++){
                 imm1[i+5] = IR[25+i];
             }
-		ifstream inpFile ("./instructions/SType.txt");
-		string line;
-		while(getline (inpFile , line ) ){
-			string fname,fopcode, fthree;
-			stringstream ss (line);
-			ss >> fname >> fopcode >> fthree;
-			if(fopcode==opcode.to_string())
-			{
-				if(fthree==func3.to_string())
-				{
-						cout<<"Operation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", immediate value "<<imm1.to_ulong()<<", destination register x"<< rd.to_ulong();
-						break;	
-				}
-			}
-		}
-		inpFile.close();
-            hasFunc7 = false;
-						hasFunc3 = true;
+            ifstream inpFile ("./instructions/SType.txt");
+            string line;
+            while(getline (inpFile , line ) ){
+                string fname,fopcode, fthree;
+                stringstream ss (line);
+                ss >> fname >> fopcode >> fthree;
+                if(fopcode==opcode.to_string())
+                {
+                    if(fthree==func3.to_string())
+                    {
+                            cout<<"\t\tOperation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", immediate value "<<imm1.to_ulong()<<", destination register x"<< rd.to_ulong();
+                            Registry_File reg;
+                            cout<<"\n\t\tvalue of x"<< rs1.to_ulong()<<": "<<bitsetRead(reg.registers[rs1.to_ulong()])<<endl;
+                            cout<<"\t\tvalue of imm"<< ": "<< imm1.to_ulong() <<endl;
+                            cout<<"\t\tvalue of rd"<<": "<<bitsetRead(reg.registers[rd.to_ulong()])<<endl;
+                            break;	
+                    }
+                }
+            }
+            inpFile.close();
+                hasFunc7 = false;
+                            hasFunc3 = true;
 
-            ibs.write_back_location = -1 ;
+                ibs.write_back_location = -1 ;
         }
         if(insType == 5){
             // UJType imm[20][10:1][11][19:12] | rd[11:7] | opcode[6:0]	
@@ -272,24 +291,28 @@ class Decode{
             }
             imm2[19] = IR[31];
 		
-		ifstream inpFile ("./instructions/UJType.txt");
-		string line;
-		while(getline (inpFile , line ) ){
-			string fname,fopcode;
-			stringstream ss (line);
-			ss >> fname >> fopcode;
-			if(fopcode==opcode.to_string())
-			{
-						cout<<"Operation is "<<fname<<", "<<"destination register x"<< rd.to_ulong()<<", immediate value "<<imm2.to_ulong();
-						break;	
-			}
-		}
-		inpFile.close();
-		
-            hasFunc7 = false;
-            hasFunc3 = false;
+            ifstream inpFile ("./instructions/UJType.txt");
+            string line;
+            while(getline (inpFile , line ) ){
+                string fname,fopcode;
+                stringstream ss (line);
+                ss >> fname >> fopcode;
+                if(fopcode==opcode.to_string())
+                {
+                            cout<<"\t\tOperation is "<<fname<<", "<<"destination register x"<< rd.to_ulong()<<", immediate value "<<imm2.to_ulong();
+                            Registry_File reg;
+            
+                            cout<<"\t\tvalue of imm"<< rs2.to_ulong()<<": "<<imm2.to_ulong()<<endl;
+                            cout<<"\t\tvalue of rd"<<": "<<bitsetRead(reg.registers[rd.to_ulong()])<<endl;
+                            break;	
+                }
+            }
+            inpFile.close();
+            
+                hasFunc7 = false;
+                hasFunc3 = false;
 
-            ibs.write_back_location = rd.to_ulong();
+                ibs.write_back_location = rd.to_ulong();
         }
         if(insType == 6){
             // UType imm[31:12] | rd[11:7] | opcode[6:0]
@@ -303,26 +326,29 @@ class Decode{
                 imm2[i] = IR[12+i];
             }
 		
-		ifstream inpFile ("./instructions/UType.txt");
-		string line;
-		while(getline (inpFile , line ) ){
-			string fname,fopcode;
-			stringstream ss (line);
-			ss >> fname >> fopcode;
-			if(fopcode==opcode.to_string())
-			{
-						cout<<"Operation is "<<fname<<", "<<"destination register x"<< rd.to_ulong()<<", immediate value "<<imm2.to_ulong();
-						break;	
-			}
-		}
-		inpFile.close();
-		
-            hasFunc7 = false;
-            hasFunc3 = false;
+            ifstream inpFile ("./instructions/UType.txt");
+            string line;
+            while(getline (inpFile , line ) ){
+                string fname,fopcode;
+                stringstream ss (line);
+                ss >> fname >> fopcode;
+                if(fopcode==opcode.to_string())
+                {
+                            cout<<"\t\tOperation is "<<fname<<", "<<"destination register x"<< rd.to_ulong()<<", immediate value "<<imm2.to_ulong();
+                            Registry_File reg;
+                            cout<<"\t\tvalue of imm"<< rs2.to_ulong()<<": "<<imm2.to_ulong()<<endl;
+                            cout<<"\t\tvalue of rd"<<": "<<bitsetRead(reg.registers[rd.to_ulong()])<<endl;
+                            break;	
+                }
+            }
+            inpFile.close();
+            
+                hasFunc7 = false;
+                hasFunc3 = false;
 
-            ibs.write_back_location = rd.to_ulong();
+                ibs.write_back_location = rd.to_ulong();
         }
-	cout<<"rs1:"<<rs1.to_ulong()<<"\trs2:"<<rs2.to_ulong()<<"\trd:"<<rd.to_ulong()<endl;
+	cout<<"\n\t\trs1:"<<rs1.to_ulong()<<"\trs2:"<<rs2.to_ulong()<<"\trd:"<<rd.to_ulong()<<endl;
 
         // Also add the same to the register files once made
         locA = rs1.to_ulong();
