@@ -80,26 +80,17 @@ class ALU {
 		else if(ins == "blt"){
 			state = (RA < RB) ? 1 : 0;
 		}
-		else if(ins == "ble"){
-			state = (RA <= RB) ? 1 : 0;
-		}
 		else if(ins == "bgt"){
 			state = (RA > RB) ? 1 : 0;
 		}
 		else if(ins == "bge"){
 			state = (RA >= RB) ? 1 : 0;
 		}
-		else if(ins == "bltu"){
-			state = (RAU < RBU) ? 1 : 0;
-		}
 		else if(ins == "beq"){
 			state = RA == RB ? 1 : 0;
 		}
 	    	else if(ins == "bne"){
 			state = RA != RB ? 1 : 0;
-		}
-		else if(ins == "bgtu"){
-			state = (RAU > RBU) ? 1 : 0;
 		}
 		else if (ins == "sra"){ //arithmetic shift
 			int shift = RB;
