@@ -11,6 +11,7 @@
 
 // TODO 
 #define MEM_SRC "machineCode.txt"
+#define HMEM_SRC "machineCode1.txt"
 #define REG_WIDTH 32
 
 using namespace std;
