@@ -4,21 +4,21 @@ n : .word 9
 main:
 	lw x10,n
     jal x1,fact
-    beqz x0,Exit
+    beq x0,x0,Exit
 fact:
 	addi sp,sp,-8
-    sw x1,4(sp)
-    sw x10,0(sp)
-    li x5,1
+    sw x1,sp,4
+    sw x10,sp,0
+    addi x5,x0,1
     bne x10,x5,Else
     addi sp,sp,8
     jalr x0,x1,0
     Else:
     	addi x10,x10,-1
         jal x1,fact
-        lw x11,0(sp)
+        lw x11,sp,0
         mul x10,x10,x11
-        lw x1,4(sp)
+        lw x1,sp,4
         addi sp,sp,8
         jalr x0,x1,0
 Exit:
