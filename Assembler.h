@@ -196,19 +196,19 @@ void  assembler_initiate(MemoryAccess &memobject)
                     if(insname=="lw")
                     {
                             ofile<<"auipc "<<regname<<" ,65536"<<endl;
-                            ofile<<"lw "<<regname<<" ,x0, "<<loadaddress<<endl;
+                            ofile<<"lw "<<regname<<" , "<<regname<<" , "<<loadaddress<<endl;
                             loadaddress = loadaddress-8;
                     }
                     else if(insname=="lb")
                     {
                             ofile<<"auipc "<<regname<<" ,65536,"<<endl;
-                            ofile<<"lb "<<regname<<" ,x0, "<<loadaddress<<endl;
+                            ofile<<"lb "<<regname<<" , "<<regname<<" , "<<loadaddress<<endl;
                             loadaddress = loadaddress-8;
                     }
                     else if(insname=="lh")
                     {
                             ofile<<"auipc "<<regname<<" ,65536,"<<endl;
-                            ofile<<"lb "<<regname<<" ,x0, "<<loadaddress<<endl;
+                            ofile<<"lw "<<regname<<" , "<<regname<<" , "<<loadaddress<<endl;
                             loadaddress = loadaddress-8;
                     }
                     //changed    
