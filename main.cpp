@@ -262,7 +262,7 @@ char cacheChoice = 'n';
 					cin>>k;
 				}
 			}
-			fetch.get(isb,rFile);
+			fetch.get(isb,rFile,i);
 			if(isb.IR.readInt() == 0 || k == 'e' || k == 'E')
 				break;
 
