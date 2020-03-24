@@ -24,8 +24,11 @@ HOW TO RUN:-
 Phase 1:-
 Parsed the input file
                 input.txt to input1.txt for assembler directives
+                
                 input1.txt to basicCode.txt for the basic code 
+                
                 basicCode.txt to machineCode.txt for phase 2
+                
                 basicCode.txt to machineCode1.txt for the machine code
                 
 Error(s) Handled in the instruction:
@@ -42,4 +45,17 @@ Our assembler accepts instructions without bracket for offset
 lb,lh,lw assumes the offset of 8
 
 Ex: lw x10, 10(x20) can be accepted as lw x10 x20 10 by your assembler.
-                
+
+Address of text segment : 0x00
+Address of data segment : 0x10000000
+
+Contribution:
+        R_Type : Vishal
+        IType and Main_Phase1 : Ishika
+        UType and UJType: Harsha
+        SType and SBType: Sujit
+        MemoryAcess and bintohex: Laksya
+        Error Handling in Instructions : Harsha and Ishika
+        Complete debugging and Running of Phase1 : Harsha and Ishika
+
+Test Program:Factorial 
