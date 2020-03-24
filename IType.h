@@ -32,6 +32,7 @@ class IType
 						if(str[i-1]=='x')
 						error = -1;
 						
+						i = i +1;
 						negative = 1;
 						while(i<str.size()&&isdigit(str[i]))
 						{
