@@ -33,6 +33,7 @@ class IType
 						error = -1;
 						
 						negative = 1;
+						i = i+1;
 						while(i<str.size()&&isdigit(str[i]))
 						{
 							int p = str[i]-'0';
