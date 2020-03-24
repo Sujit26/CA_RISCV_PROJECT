@@ -2,7 +2,7 @@ README
 Ishika Soni-2017eeb1145
 Harsha Garg-2017meb1008
 Vishal Lunia-2017eeb1177
-Sujit Jaiswaliya-2017csb1115
+Sujit Jaiwaliya-2017csb1115
 Lakshya-2017eeb1149
 
 Language:- C++
