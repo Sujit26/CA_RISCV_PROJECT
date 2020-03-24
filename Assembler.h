@@ -48,7 +48,7 @@ void  assembler_initiate(MemoryAccess &memobject)
     bool start = 0;
     bool starttext = 0;
     bool labeldef = 0 ;
-    int address =  0;
+    int address =  0x10000000;
     int loadaddress = 0;
     
 
