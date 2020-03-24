@@ -18,8 +18,13 @@ HOW TO RUN:-
     
 Contribution:
     Fetch Stage: Vishal
+    
     Decode Stage: Sujit
+    
     Exeute Stage: Harsha
+    
     Memory : Lakshya
+    
     Write Back: Ishika
+    
     Main file , complete debugging and running of phase2 : Vishal and Sujit
