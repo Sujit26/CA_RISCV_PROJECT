@@ -161,7 +161,7 @@ int main(){
 				cout<<"ERROR !! Some parameters missing... :"<<line<<endl;
 				return 0;
 			}
-			oFile <<lineNo<<" "<< machineCode <<" "<< endl;
+			oFile <<lineNo<<" "<< machineCode <<" "<<insType<< endl;
 			oFile2 <<lineNo<<" "<< line << endl;
 			int pe = convert_bitset(machineCode);//changed
 			int ce = (lineNo-1)*4;//changed
@@ -262,16 +262,21 @@ char cacheChoice = 'n';
 					cin>>k;
 				}
 			}
+			cout<<"Fetch "<<i<<endl; 
 			fetch.get(isb,rFile,i);
 			if(isb.IR.readInt() == 0 || k == 'e' || k == 'E')
 				break;
-
+			cout<<"Decode "<<i<<endl; 
 			decode.decoder(isb,rFile);
+			cout<<"ALU "<<i<<endl;
 			alu.compute(isb);
+			cout<<"Memory "<<i<<endl;
 			memory(isb, memAccess, muxy,cache);
+			cout<<"WriteBack "<<i<<endl;
 			writeBack(isb, regUpdate, rFile);
 			iag.step(isb,alu);
 			isb.resetAll();
+			cout<<endl;
 
 			if(isb.printRegFile) print(i,isb,rFile);
 		}
@@ -298,7 +303,7 @@ char cacheChoice = 'n';
 			
 			if(i==1){
 				if(!end){
-					fetch.get(isb,rFile);
+					fetch.get(isb,rFile,i);
 					if(!isb.hazard_type) iag.update(isb);
 					else iag.jumpPC(isb,isb.branch_address);
 				}
@@ -316,7 +321,7 @@ char cacheChoice = 'n';
 					if(isb.hazard_type == 2){
 						iag.jumpPC(isb, isb.branch_address);
 					}
-					fetch.get(isb,rFile);
+					fetch.get(isb,rFile,i);
 					updateISB(isb);
 					if(!isb.hazard_type) iag.update(isb);
 					else iag.jumpPC(isb,isb.branch_address);
@@ -336,7 +341,7 @@ char cacheChoice = 'n';
 					if(isb.hazard_type == 2){
 						iag.jumpPC(isb, isb.branch_address);
 					}
-					fetch.get(isb,rFile);
+					fetch.get(isb,rFile,i);
 					updateISB(isb);
 					if(!isb.hazard_type) iag.update(isb);
 					else iag.jumpPC(isb,isb.branch_address);
@@ -357,7 +362,7 @@ char cacheChoice = 'n';
 					if(isb.hazard_type == 2){
 						iag.jumpPC(isb, isb.branch_address);
 					}
-					fetch.get(isb,rFile);
+					fetch.get(isb,rFile,i);
 					updateISB(isb);
 					if(!isb.hazard_type) iag.update(isb);
 					else iag.jumpPC(isb,isb.branch_address);
@@ -379,7 +384,7 @@ char cacheChoice = 'n';
 					if(isb.hazard_type == 2){
 						iag.jumpPC(isb, isb.branch_address);
 					}
-					fetch.get(isb,rFile);
+					fetch.get(isb,rFile,i);
 					updateISB(isb);
 					if(!isb.hazard_type) iag.update(isb);
 					else iag.jumpPC(isb,isb.branch_address);
@@ -412,7 +417,7 @@ char cacheChoice = 'n';
 			
 			if(i==1){
 				if(!end){
-					fetch.get(isb,rFile);
+					fetch.get(isb,rFile,i);
 					if(!isb.hazard_type) iag.update(isb);
 					else iag.jumpPC(isb,isb.branch_address);
 				}
@@ -430,7 +435,7 @@ char cacheChoice = 'n';
 					if(isb.hazard_type == 2){
 						iag.jumpPC(isb, isb.branch_address);
 					}
-					fetch.get(isb,rFile);
+					fetch.get(isb,rFile,i);
 					updateISB(isb);
 					if(!isb.hazard_type) iag.update(isb);
 					else iag.jumpPC(isb,isb.branch_address);
@@ -450,7 +455,7 @@ char cacheChoice = 'n';
 					if(isb.hazard_type == 2){
 						iag.jumpPC(isb, isb.branch_address);
 					}
-					fetch.get(isb,rFile);
+					fetch.get(isb,rFile,i);
 					updateISB(isb);
 					if(!isb.hazard_type) iag.update(isb);
 					else iag.jumpPC(isb,isb.branch_address);
@@ -471,7 +476,7 @@ char cacheChoice = 'n';
 					if(isb.hazard_type == 2){
 						iag.jumpPC(isb, isb.branch_address);
 					}
-					fetch.get(isb,rFile);
+					fetch.get(isb,rFile,i);
 					updateISB(isb);
 					if(!isb.hazard_type) iag.update(isb);
 					else iag.jumpPC(isb,isb.branch_address);
@@ -493,7 +498,7 @@ char cacheChoice = 'n';
 					if(isb.hazard_type == 2){
 						iag.jumpPC(isb, isb.branch_address);
 					}
-					fetch.get(isb,rFile);
+					fetch.get(isb,rFile,i);
 					updateISB(isb);
 					if(!isb.hazard_type) iag.update(isb);
 					else iag.jumpPC(isb,isb.branch_address);
