@@ -187,7 +187,7 @@ void  assembler_initiate(MemoryAccess &memobject)
             
             
             
-            if( (insname == "la" || insname == "lw" || insname == "lb") && (!isdigit(label[label.size()-1]) )
+            if( (insname == "la" || insname == "lw" || insname == "lb") && (!isdigit(label[label.size()-1]) ))
             {
                 
                     //ofile<<"addi "<<regname<<",x0,"<<labelLookup[label]<<endl;
