@@ -322,6 +322,7 @@ class Decode{
 
             ibs.write_back_location = rd.to_ulong();
         }
+	cout<<"rs1:"<<rs1.to_ulong()<<"\trs2:"<<rs2.to_ulong()<<"\trd:"<<rd.to_ulong()<endl;
 
         // Also add the same to the register files once made
         locA = rs1.to_ulong();
