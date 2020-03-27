@@ -1,12 +1,10 @@
 #pragma once
-
 #include<iostream>
 #include<vector>
 #include<fstream>
 #include<string>
 #include<bitset>
 #include<sstream>
-
 using namespace std;
 
 int convert_bitset(bitset<32> a){
