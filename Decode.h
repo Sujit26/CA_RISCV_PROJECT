@@ -8,6 +8,7 @@
 #include<bitset>
 
 using namespace std;
+string global_opcode = "0000000";
 
 class Decode{
     private:
@@ -29,6 +30,7 @@ class Decode{
     bool stallA = false;
     bool stallB = false;
     bool stallC = false;
+
 
 
 
@@ -150,26 +152,27 @@ class Decode{
             for(int i=0; i<12; i++){
                 imm1[i] = IR[20+i];
             }
-		
+            
             ifstream inpFile ("./instructions/IType.txt");
             string line;
             while(getline (inpFile , line ) ){
-			string fname,fopcode, fthree;
-			stringstream ss (line);
-			ss >> fname >> fopcode >> fthree;
-			if(fopcode==opcode.to_string())
-			{
-				if(fthree==func3.to_string())
-				{
-						cout<<"\t\tOperation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", immediate value is "<<imm1.to_ulong()<<", destination register x"<< rd.to_ulong();
-                        Registry_File reg;
-                            cout<<"\n\t\tvalue of x"<< rs1.to_ulong()<<": "<<bitsetRead(reg.registers[rs1.to_ulong()])<<endl;
-                            cout<<"\t\tvalue of imm"<< ": "<<imm1.to_ulong()<<endl;
-                            cout<<"\t\tvalue of rd"<<": "<<bitsetRead(reg.registers[rd.to_ulong()])<<endl;
-                            
-						break;	
-				}
-			}
+                string fname,fopcode, fthree;
+                stringstream ss (line);
+                ss >> fname >> fopcode >> fthree;
+                global_opcode = fopcode;
+                if(fopcode==opcode.to_string())
+                {
+                    if(fthree==func3.to_string())
+                    {
+                            cout<<"\t\tOperation is "<<fname<<", "<<"first operand x"<<rs1.to_ulong()<<", immediate value is "<<imm1.to_ulong()<<", destination register x"<< rd.to_ulong();
+                            Registry_File reg;
+                                cout<<"\n\t\tvalue of x"<< rs1.to_ulong()<<": "<<bitsetRead(reg.registers[rs1.to_ulong()])<<endl;
+                                cout<<"\t\tvalue of imm"<< ": "<<imm1.to_ulong()<<endl;
+                                cout<<"\t\tvalue of rd"<<": "<<bitsetRead(reg.registers[rd.to_ulong()])<<endl;
+                                
+                            break;	
+                    }
+                }
 		    }
             inpFile.close();
                 hasFunc7 = false;
@@ -348,7 +351,7 @@ class Decode{
 
                 ibs.write_back_location = rd.to_ulong();
         }
-	cout<<"\n\t\trs1:"<<rs1.to_ulong()<<"\trs2:"<<rs2.to_ulong()<<"\trd:"<<rd.to_ulong()<<endl;
+	    cout<<"\n\t\trs1:"<<rs1.to_ulong()<<"\trs2:"<<rs2.to_ulong()<<"\trd:"<<rd.to_ulong()<<endl;
 
         // Also add the same to the register files once made
         locA = rs1.to_ulong();
@@ -660,5 +663,8 @@ class Decode{
             ibs.pWrite = locC;
         }
         
+    }
+    string return_opcode(){
+        return global_opcode;
     }
 };
