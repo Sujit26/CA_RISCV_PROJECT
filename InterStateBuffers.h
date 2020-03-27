@@ -167,7 +167,6 @@ class InterStateBuffers{
 			accesses_data = 0;
 			hits_data = 0;
 		}
-
 		void resetAll(){
 			RA.reset();
 			RB.reset();
@@ -178,9 +177,8 @@ class InterStateBuffers{
 			mem_register = 0;
 			pc_offset = 0;
 		}
-
 		void printAll(){
-			cout<<"********** Inter State Buffer Values ***********\n";
+			cout<<"********** Inter-State Buffer Values ***********\n";
 			cout<<"\tRA\t:\t"<<RA.readInt()<<endl;
 			cout<<"\tRB\t:\t"<<RB.readInt()<<endl;
 			cout<<"\tRM\t:\t"<<RM.readInt()<<endl;
