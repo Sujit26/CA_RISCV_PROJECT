@@ -126,9 +126,6 @@ class ALU {
 		}
 		else{
 			cout<<"Sorry instruction "<<ins<< " not found ! "<<endl;
-		}
-		
+		}	
     }
-
-    
 };
