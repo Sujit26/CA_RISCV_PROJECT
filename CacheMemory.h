@@ -197,10 +197,7 @@ class Cache{
             CacheMem[blocknumber][0] = 1;
             memobject.writeByte(isb);
         }
-
         capacity++;
 
     }
-
-  
 };
