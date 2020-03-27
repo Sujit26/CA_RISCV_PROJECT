@@ -25,7 +25,6 @@ class IAG{
 			isb.return_address = isb.PC+1;
 			return;
 		}
-
 		//For pipelined version
 		void update(InterStateBuffers &isb){
 			isb.PC++;
