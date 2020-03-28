@@ -3,7 +3,6 @@
 using namespace std;
 
 class MUX_Y{
-    
     public:
     int MUX_Y_SELECT; // select line from control signal. | 1 for RZ | 2 for memory register| 3 for return address |
 
